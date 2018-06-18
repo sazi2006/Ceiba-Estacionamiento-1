@@ -1,6 +1,5 @@
 build
 bin
-gradle
 jacoco
 .gradle
 .settings
