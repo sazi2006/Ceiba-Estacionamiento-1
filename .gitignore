@@ -1,6 +1,5 @@
-#build
+build
 #bin
-#jacoco
-#.gradle
-#.settings
-#.project
+.gradle
+.settings
+.project

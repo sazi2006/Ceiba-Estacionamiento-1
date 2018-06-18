@@ -42,10 +42,18 @@ pipeline {
 		stage('Unit Tests') {
 			steps {
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./build.gradle test'
+				sh 'gradle --b ./build.gradle test -x compileJava'
 
 			}
 		
+		}
+		
+		stage('Coverage Report') {
+			steps {
+				echo "GENERATE COVERAGE REPORT"
+				sh 'gradle --b ./build.gradle jacocoTestReport'
+			
+			}
 		}
 		
 		stage('Integration Tests') {

@@ -18,7 +18,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'gs-rest-service'
+    baseName = 'ceiba-estacionamiento'
     version =  '0.1.0'
 }
 
@@ -41,8 +41,8 @@ dependencies {
 test {
 	jacoco {
 		append = false
-		destinationFile = file("jacoco/jacocoTest.exec")
+		destinationFile = file("build/jacoco/jacocoTest.exec")
 	}
-	reports.junitXml.destination = file("jacoco/test-results")
+	reports.junitXml.destination = file("build/test-results")
 
 }
