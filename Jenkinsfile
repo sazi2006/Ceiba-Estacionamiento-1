@@ -29,6 +29,16 @@ pipeline {
 		
 		}
 		
+		stage('Compile') {
+			steps {
+				echo "------------>Compile<------------"
+				//Construir sin tarea test que se ejecutó previamente
+				sh 'gradle --b ./build.gradle compileJava'
+
+			}
+		
+		}
+		
 		stage('Unit Tests') {
 			steps {
 				echo "------------>Unit Tests<------------"
@@ -61,7 +71,7 @@ pipeline {
 			steps {
 				echo "------------>Build<------------"
 				//Construir sin tarea test que se ejecutó previamente
-				sh 'gradle --b ./build.gradle build -x test'
+				sh 'gradle --b ./build.gradle build -x compileJava -x test'
 
 			}
 		
