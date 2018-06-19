@@ -1,11 +1,11 @@
-package dominio.controladores;
+package co.com.ceiba.dominio.controlador;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import persistencia.entidad.Greeting;
+import co.com.ceiba.persistencia.entidad.Greeting;
 
 @RestController
 public class GreetingController {

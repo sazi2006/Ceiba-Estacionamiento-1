@@ -1,4 +1,4 @@
-package dominio;
+package co.com.ceiba.dominio;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

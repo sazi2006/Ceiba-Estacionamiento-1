@@ -1,4 +1,4 @@
-package persistencia.entidad;
+package co.com.ceiba.persistencia.entidad;
 
 public class Greeting {
 

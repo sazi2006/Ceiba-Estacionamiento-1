@@ -1,4 +1,4 @@
-package dominio;
+package co.com.ceiba.dominio;
 
 import java.util.Date;
 

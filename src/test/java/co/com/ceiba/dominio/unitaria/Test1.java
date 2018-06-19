@@ -1,4 +1,4 @@
-package dominio.unitaria;
+package co.com.ceiba.dominio.unitaria;
 
 import static org.junit.Assert.*;
 
