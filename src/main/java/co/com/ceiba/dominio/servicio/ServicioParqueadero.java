@@ -1,4 +1,4 @@
-package co.com.ceiba.persistencia.servicio;
+package co.com.ceiba.dominio.servicio;
 
 import java.util.List;
 

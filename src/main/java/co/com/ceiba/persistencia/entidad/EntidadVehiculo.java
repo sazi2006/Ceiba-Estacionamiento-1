@@ -1,5 +1,7 @@
 package co.com.ceiba.persistencia.entidad;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +16,11 @@ public abstract class EntidadVehiculo {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	private String placa;
+	
+	@Column(nullable = false)
+	private Date fechaIngreso;
 	
 	public Long getId() {
 		return id;
@@ -31,6 +36,14 @@ public abstract class EntidadVehiculo {
 	
 	public void setPlaca(String placa) {
 		this.placa = placa;
+	}
+	
+	public Date getFechaIngreso() {
+		return fechaIngreso;
+	}
+	
+	public void setFechaIngreso(Date fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
 	}
 
 }

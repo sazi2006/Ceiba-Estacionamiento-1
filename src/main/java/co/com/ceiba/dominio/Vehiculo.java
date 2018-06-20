@@ -1,19 +1,21 @@
 package co.com.ceiba.dominio;
 
+import java.util.Date;
+
 public class Vehiculo {
-	private short cilindrada;
 	private String placa;
+	private Date fechaIngreso;
 	
-	public Vehiculo(short cilindrada, String placa) {
-		this.cilindrada = cilindrada;
+	public Vehiculo(String placa, Date fechaIngreso) {
 		this.placa = placa;
-	}
-	
-	public short getCilindrada() {
-		return cilindrada;
+		this.fechaIngreso = fechaIngreso;
 	}
 	
 	public String getPlaca() {
 		return placa;
+	}
+	
+	public Date getFechaIngreso() {
+		return fechaIngreso;
 	}
 }
