@@ -6,13 +6,17 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
 import co.com.ceiba.persistencia.entidad.EntidadCarro;
 import co.com.ceiba.persistencia.entidad.EntidadMoto;
 import co.com.ceiba.persistencia.repositorio.RepositorioCarro;
 import co.com.ceiba.persistencia.repositorio.RepositorioMoto;
 
 @Service
-public class ServicioVigilanteImpl implements ServicioVigilante{
+public class ServicioVigilanteImpl implements ServicioVigilante {
+	
+	public static final String NO_HAY_CUPO = "No puede ingresar, el parqueadero se encuentra lleno";
+	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no está en un dia hábil";
 	
 	@Autowired
 	private RepositorioCarro repositorioCarro;
@@ -39,11 +43,20 @@ public class ServicioVigilanteImpl implements ServicioVigilante{
 	}
 	
 	public boolean hayCupoMoto() {
-		return repositorioMoto.count() < 10 ? true : false;
+		//return repositorioMoto.count() < 10 ? true : false;
+		if(repositorioMoto.count() < 10) {
+			return true;
+		}
+		throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
 	}
 	
 	public boolean hayCupoCarro() {
-		return repositorioMoto.count() < 20 ? true : false;
+		//return repositorioCarro.count() < 20 ? true : false;
+		
+		if(repositorioCarro.count() < 20) {
+			return true;
+		}
+		throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
 	}
 	
 	public boolean puedeIngresar(String placa, Date fechaIngreso) {
@@ -60,7 +73,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante{
 		if (dia == Calendar.SUNDAY || dia == Calendar.MONDAY) {
             return true;
         }
-		return false;
+		throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
 	}
 	
 	public void salida(String placa) {

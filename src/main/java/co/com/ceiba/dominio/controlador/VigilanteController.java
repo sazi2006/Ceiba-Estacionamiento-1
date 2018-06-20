@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
+import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
 import co.com.ceiba.dominio.servicio.ServicioVigilante;
 
 @RestController
@@ -37,14 +38,17 @@ public class VigilanteController {
     	
     	Date fechaIngreso = new Date();
     	
-    	if(servicioVigilante.hayCupoMoto() && servicioVigilante.puedeIngresar(placa, fechaIngreso)) {
-    		servicioVigilante.ingresarVehiculo(placa, cilindrada, fechaIngreso);
-    		
-    		return new Moto(placa, cilindrada, fechaIngreso);
+    	try {
+    	
+	    	if(servicioVigilante.hayCupoMoto() && servicioVigilante.puedeIngresar(placa, fechaIngreso)) {
+	    		servicioVigilante.ingresarVehiculo(placa, cilindrada, fechaIngreso);
+	    		
+	    		return new Moto(placa, cilindrada, fechaIngreso);
+	    	}
+    	} catch (IngresoVehiculoExcepcion e) {
+    		return e.getMessage();
     	}
-    	
     	return null;
-    	
         
     }
 }
