@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.com.ceiba.persistencia.entidad.ParqueaderoEntity;
-import co.com.ceiba.persistencia.entidad.VigilanteEntity;
+import co.com.ceiba.persistencia.entidad.EntidadParqueadero;
+import co.com.ceiba.persistencia.entidad.EntidadVigilante;
 
 import co.com.ceiba.persistencia.repositorio.RepositorioParqueadero;
 import co.com.ceiba.persistencia.repositorio.RepositorioVigilante;
@@ -21,17 +21,17 @@ public class ServicioParqueaderoImpl implements ServicioParqueadero {
     
 	public List<String> getAllVigilantes(long idParqueadero) {
 		List<String> result = new ArrayList<String>();
-        List<VigilanteEntity> vigilantes = repositorioVigilante.findByParqueadero(idParqueadero);
-        for (VigilanteEntity vigilante : vigilantes) {
+        List<EntidadVigilante> vigilantes = repositorioVigilante.findByParqueadero(idParqueadero);
+        for (EntidadVigilante vigilante : vigilantes) {
             result.add(vigilante.getNombres());
         }
         return result;
 	}
 	
 	public void addVigilante(String docIdentidad, String nombres, String apellidos) {
-		ParqueaderoEntity parqueadero = repositorioParqueadero.findById(1l).orElse(null);;
+		EntidadParqueadero parqueadero = repositorioParqueadero.findById(1l).orElse(null);;
 		
-        VigilanteEntity nuevoVigilante = new VigilanteEntity();
+        EntidadVigilante nuevoVigilante = new EntidadVigilante();
         nuevoVigilante.setNombres(nombres);
         nuevoVigilante.setApellidos(apellidos);
         repositorioVigilante.save(nuevoVigilante);

@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity(name="Vigilante")
-public class VigilanteEntity {
+public class EntidadVigilante {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -31,7 +31,7 @@ public class VigilanteEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_PARQUEADERO", nullable = false)
-	private ParqueaderoEntity parqueadero;
+	private EntidadParqueadero parqueadero;
 	
 	public Long getId() {
 		return id;
@@ -73,11 +73,11 @@ public class VigilanteEntity {
 		this.fechaNac = fechaNac;
 	}
 	
-	public ParqueaderoEntity getParqueadero() {
+	public EntidadParqueadero getParqueadero() {
 		return parqueadero;
 	}
 	
-	public void setParqueadero(ParqueaderoEntity parqueadero) {
+	public void setParqueadero(EntidadParqueadero parqueadero) {
 		this.parqueadero = parqueadero;
 	}
 }

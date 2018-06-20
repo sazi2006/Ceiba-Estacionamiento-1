@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity(name="Parqueadero")
-public class ParqueaderoEntity {
+public class EntidadParqueadero {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -27,11 +27,11 @@ public class ParqueaderoEntity {
 	private short nroCeldas;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parqueadero")
-    private List<VigilanteEntity> vigilantes;
+    private List<EntidadVigilante> vigilantes;
 	
-	protected ParqueaderoEntity() {}
+	protected EntidadParqueadero() {}
 	
-	public ParqueaderoEntity(String nombre, short nroCeldas) {
+	public EntidadParqueadero(String nombre, short nroCeldas) {
 		this.nombre = nombre;
 		this.nroCeldas = nroCeldas;
 	}

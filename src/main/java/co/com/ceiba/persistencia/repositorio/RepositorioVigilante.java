@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import co.com.ceiba.persistencia.entidad.VigilanteEntity;
+import co.com.ceiba.persistencia.entidad.EntidadVigilante;
 
 @Repository
-public interface RepositorioVigilante extends CrudRepository<VigilanteEntity, Long> {
+public interface RepositorioVigilante extends CrudRepository<EntidadVigilante, Long> {
 	
-	List<VigilanteEntity> findByParqueadero(long idParqueadero);
+	List<EntidadVigilante> findByParqueadero(long idParqueadero);
 	
 }
