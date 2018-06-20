@@ -1,4 +1,4 @@
-package dominio;
+package co.com.ceiba.dominio;
 
 public class Parqueadero {
 	private String nombre;

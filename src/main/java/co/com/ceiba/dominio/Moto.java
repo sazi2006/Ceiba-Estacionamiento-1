@@ -1,4 +1,4 @@
-package dominio;
+package co.com.ceiba.dominio;
 
 public class Moto extends Vehiculo{
 	
