@@ -42,7 +42,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		repositorioMoto.save(moto);
 	}
 	
-	public boolean hayCupoMoto() {
+	public boolean hayCupoMoto() throws IngresoVehiculoExcepcion {
 		//return repositorioMoto.count() < 10 ? true : false;
 		if(repositorioMoto.count() < 10) {
 			return true;
@@ -50,7 +50,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
 	}
 	
-	public boolean hayCupoCarro() {
+	public boolean hayCupoCarro() throws IngresoVehiculoExcepcion {
 		//return repositorioCarro.count() < 20 ? true : false;
 		
 		if(repositorioCarro.count() < 20) {
@@ -59,7 +59,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
 	}
 	
-	public boolean puedeIngresar(String placa, Date fechaIngreso) {
+	public boolean puedeIngresar(String placa, Date fechaIngreso) throws IngresoVehiculoExcepcion {
 		
 		if(!placa.startsWith("A")) {
 			return true;

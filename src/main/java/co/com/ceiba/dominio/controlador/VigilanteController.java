@@ -3,52 +3,62 @@ package co.com.ceiba.dominio.controlador;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.respuesta.FormatoRespuesta;
 import co.com.ceiba.dominio.servicio.ServicioVigilante;
 
 @RestController
 public class VigilanteController {
 	
+	private final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
+	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
 
-    @RequestMapping("/agregar/carro")
-    public Object registrarIngresoCarro(@RequestParam(value="placa") String placa) {
+    @RequestMapping(path = "/agregar/carro", method = RequestMethod.POST)
+    public Object registrarIngresoCarro(@RequestBody Carro carro) {
     	
-    	Date fechaIngreso = new Date();
+    	String placa = carro.getPlaca();
+    	Date fechaIngreso = carro.getFechaIngreso();
+    	
+    	try {
     	
     	if(servicioVigilante.hayCupoCarro() && servicioVigilante.puedeIngresar(placa, fechaIngreso)) {
     		servicioVigilante.ingresarVehiculo(placa, fechaIngreso);
     		
-    		return new Carro(placa, fechaIngreso);
+    	}
+    	return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
+    	
+    	} catch (IngresoVehiculoExcepcion e) {
+    		return new FormatoRespuesta(e.getMessage(), false, new Date());
     	}
     	
-        return null;
     }
     
-    @RequestMapping("/agregar/moto")
-    public Object registrarIngresoMoto(@RequestParam(value="placa") String placa,
-    		@RequestParam(value="cilindrada") short cilindrada) {
+    @RequestMapping(path = "/agregar/moto", method = RequestMethod.POST)
+    public Object registrarIngresoMoto(@RequestBody Moto moto) {
     	
-    	Date fechaIngreso = new Date();
+    	String placa = moto.getPlaca();
+    	short cilindrada = moto.getCilindrada();
+    	Date fechaIngreso = moto.getFechaIngreso();
     	
     	try {
     	
 	    	if(servicioVigilante.hayCupoMoto() && servicioVigilante.puedeIngresar(placa, fechaIngreso)) {
 	    		servicioVigilante.ingresarVehiculo(placa, cilindrada, fechaIngreso);
 	    		
-	    		return new Moto(placa, cilindrada, fechaIngreso);
 	    	}
+	    	return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
     	} catch (IngresoVehiculoExcepcion e) {
-    		return e.getMessage();
+    		return new FormatoRespuesta(e.getMessage(), false, new Date());
     	}
-    	return null;
         
     }
 }
