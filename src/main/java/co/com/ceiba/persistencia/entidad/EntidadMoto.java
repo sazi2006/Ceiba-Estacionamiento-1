@@ -1,6 +1,5 @@
 package co.com.ceiba.persistencia.entidad;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +12,6 @@ public class EntidadMoto extends EntidadVehiculo{
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
 	private short cilindrada;
 	
 	public Long getId() {
