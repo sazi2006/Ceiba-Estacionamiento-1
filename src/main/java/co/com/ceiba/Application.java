@@ -53,7 +53,7 @@ public class Application{
 			log.info("");
 			
 			// fetch all customers
-			log.info("Carros con el metodo findAll():");
+			log.info("Carros con el metodo findByEstaEnParqueadero():");
 			log.info("-------------------------------");
 			for (EntidadCarro carro1 : repositorioCarro.findByEstaEnParqueadero(true)) {
 				log.info(carro1.getPlaca() + " -> " + carro1.getId() + " Esta en el parqueadero? " + carro1.estaEnParqueadero());
