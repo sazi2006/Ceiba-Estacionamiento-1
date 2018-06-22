@@ -17,7 +17,7 @@ import co.com.ceiba.dominio.servicio.ServicioVigilante;
 @RestController
 public class VigilanteController {
 	
-	private final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
+	private static final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
 	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
