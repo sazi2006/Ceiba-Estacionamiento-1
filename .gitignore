@@ -1,5 +1,7 @@
 build
-#bin
+bin
 .gradle
 .settings
 .project
+.classpath
+database

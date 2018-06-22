@@ -25,6 +25,8 @@ pipeline {
 				'Git_Centos', submoduleCfg: [], userRemoteConfigs: [[credentialsId:
 				'GitHub_vquintec', url:
 				'https://github.com/vquintec/Ceiba-Estacionamiento']]])
+				
+				sh 'gradle --b ./build.gradle clean'
 			}
 		
 		}
