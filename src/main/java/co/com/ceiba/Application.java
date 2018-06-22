@@ -1,7 +1,5 @@
 package co.com.ceiba;
 
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,9 +19,6 @@ public class Application{
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 	
 	@Autowired
-	private RepositorioVehiculo repositorioVehiculo;
-	
-	@Autowired
 	private RepositorioMoto repositorioMoto;
 	
 	@Autowired
@@ -32,9 +27,10 @@ public class Application{
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
+
     
     @Bean
-	public CommandLineRunner demo(RepositorioParqueadero repository) {
+	public CommandLineRunner demo() {
 		return (args) -> {
 			
 			//EntidadMoto moto = new EntidadMoto();
@@ -42,6 +38,11 @@ public class Application{
 			//moto.setCilindrada((short) 180);
 			
 			//repositorioMoto.save(moto);
+			
+			/*
+			entidadMoto = repositorioMoto.findByPlaca("IJX14Ehg");
+			
+			System.out.println(entidadMoto.getId() + " -> " + entidadMoto.getCilindrada() + " -> " + entidadMoto.getPlaca());*/
 			
 			// fetch all customers
 			log.info("Motos con el metodo findAll():");
@@ -54,8 +55,8 @@ public class Application{
 			// fetch all customers
 			log.info("Carros con el metodo findAll():");
 			log.info("-------------------------------");
-			for (EntidadCarro carro1 : repositorioCarro.findAll()) {
-				log.info(carro1.getPlaca() + " -> " + carro1.getId());
+			for (EntidadCarro carro1 : repositorioCarro.findByEstaEnParqueadero(true)) {
+				log.info(carro1.getPlaca() + " -> " + carro1.getId() + " Esta en el parqueadero? " + carro1.estaEnParqueadero());
 			}
 			log.info("");
 			
@@ -66,7 +67,7 @@ public class Application{
 			repository.save(new EntidadParqueadero("Vivo4", (short) 50));*/
 			
 			// fetch all customers
-			log.info("Customers found with findAll():");
+			/*log.info("Customers found with findAll():");
 			log.info("-------------------------------");
 			for (EntidadParqueadero customer : repository.findAll()) {
 				log.info(customer.toString());
@@ -91,7 +92,7 @@ public class Application{
 			// for (Customer bauer : repository.findByLastName("Bauer")) {
 			// 	log.info(bauer.toString());
 			// }
-			log.info("");
+			log.info("");*/
 		};
 	}
 }

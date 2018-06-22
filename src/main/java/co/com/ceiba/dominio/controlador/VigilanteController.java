@@ -21,22 +21,16 @@ public class VigilanteController {
 	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
+	
 
     @RequestMapping(path = "/agregar/carro", method = RequestMethod.POST)
     public Object registrarIngresoCarro(@RequestBody Carro carro) {
     	
-    	String placa = carro.getPlaca();
-    	Date fechaIngreso = carro.getFechaIngreso();
-    	
     	try {
-    	
-    	if(servicioVigilante.hayCupoCarro() && servicioVigilante.puedeIngresar(placa, fechaIngreso)) {
-    		servicioVigilante.ingresarVehiculo(placa, fechaIngreso);
+    		servicioVigilante.ingresarVehiculo(carro);
+    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
     		
-    	}
-    	return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
-    	
-    	} catch (IngresoVehiculoExcepcion e) {
+    	}catch (IngresoVehiculoExcepcion e) {
     		return new FormatoRespuesta(e.getMessage(), false, new Date());
     	}
     	
@@ -45,21 +39,14 @@ public class VigilanteController {
     @RequestMapping(path = "/agregar/moto", method = RequestMethod.POST)
     public Object registrarIngresoMoto(@RequestBody Moto moto) {
     	
-    	String placa = moto.getPlaca();
-    	short cilindrada = moto.getCilindrada();
-    	Date fechaIngreso = moto.getFechaIngreso();
-    	
     	try {
-    	
-	    	if(servicioVigilante.hayCupoMoto() && servicioVigilante.puedeIngresar(placa, fechaIngreso)) {
-	    		servicioVigilante.ingresarVehiculo(placa, cilindrada, fechaIngreso);
-	    		
-	    	}
-	    	return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
-    	} catch (IngresoVehiculoExcepcion e) {
+    		servicioVigilante.ingresarVehiculo(moto);
+    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
+    		
+    	}catch (IngresoVehiculoExcepcion e) {
     		return new FormatoRespuesta(e.getMessage(), false, new Date());
     	}
-        
+    	
     }
 }
 

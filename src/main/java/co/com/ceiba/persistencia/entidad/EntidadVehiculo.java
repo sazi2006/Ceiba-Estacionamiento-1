@@ -22,6 +22,8 @@ public abstract class EntidadVehiculo {
 	@Column(nullable = false)
 	private Date fechaIngreso;
 	
+	private boolean estaEnParqueadero;
+	
 	public Long getId() {
 		return id;
 	}
@@ -45,5 +47,15 @@ public abstract class EntidadVehiculo {
 	public void setFechaIngreso(Date fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
 	}
+
+	public boolean estaEnParqueadero() {
+		return estaEnParqueadero;
+	}
+
+	public void setEstaEnParqueadero(boolean estaEnParqueadero) {
+		this.estaEnParqueadero = estaEnParqueadero;
+	}
+	
+	
 
 }

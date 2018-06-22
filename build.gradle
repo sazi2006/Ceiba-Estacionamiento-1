@@ -5,10 +5,6 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
     }
-	
-	project.ext.junit = ['junit:junit:4.12']  	
-	project.ext.mockito = ['org.mockito:mockito-all:1.10.19']
-	project.ext.log4j = ['log4j:log4j:1.2.17']
 }
 
 apply plugin: 'java'
@@ -35,13 +31,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-parent:1.5.10.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     
-    
-    //compile 'log4j:log4j:1.2.17'
 	compile 'com.h2database:h2:1.4.197'
-	//compile 'org.hibernate:hibernate-core:5.3.1.Final'
-	testCompile project.ext.junit
-	testCompile project.ext.mockito
+	testCompile('org.springframework.boot:spring-boot-test')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
 	
 }
 

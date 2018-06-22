@@ -8,8 +8,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Carro extends Vehiculo{
 	
 	@JsonCreator
-	public Carro(@JsonProperty(value="placa", required=true) String placa,@JsonProperty(value="fechaIngreso", required=true) Date fechaIngreso) {
-		super(placa, fechaIngreso);
+	public Carro(@JsonProperty(value="placa", required=true) String placa,
+			@JsonProperty(value="fechaIngreso", required=true) Date fechaIngreso,
+			@JsonProperty(value="estaEnParqueadero", defaultValue="false") boolean estaEnParqueadero) {
+		
+		super(placa, fechaIngreso, estaEnParqueadero);
 	}
 	
 }
