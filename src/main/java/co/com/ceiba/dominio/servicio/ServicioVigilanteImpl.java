@@ -97,13 +97,5 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		return dia == Calendar.SUNDAY || dia == Calendar.MONDAY;
 		
 	}
-	
-	public void salida(String placa) {
-		
-	}
-	
-	public void cobrar(String placa) { 
-		
-	}
 
 }

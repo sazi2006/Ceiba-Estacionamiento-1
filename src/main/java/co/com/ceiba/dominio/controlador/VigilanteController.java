@@ -53,7 +53,6 @@ public class VigilanteController {
     public Object registrarSalidaCarro(@RequestBody Carro carro) {
     	
     	try {
-    		servicioVigilante.ingresarVehiculo(carro);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
     		
     	}catch (IngresoVehiculoExcepcion e) {
@@ -66,7 +65,6 @@ public class VigilanteController {
     public Object registrarSalidaMoto(@RequestBody Moto moto) {
     	
     	try {
-    		servicioVigilante.ingresarVehiculo(moto);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
     		
     	}catch (IngresoVehiculoExcepcion e) {

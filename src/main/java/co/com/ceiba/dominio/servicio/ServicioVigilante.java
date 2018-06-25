@@ -12,8 +12,5 @@ public interface ServicioVigilante {
 	
 	public boolean puedeIngresar(String placa, Date fechaIngreso);
 	
-	public void salida(String placa);
-	
-	public void cobrar(String placa);
 
 }
