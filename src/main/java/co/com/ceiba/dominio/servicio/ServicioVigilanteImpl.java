@@ -67,43 +67,11 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		
 	}
 	
-	/*public void ingresarVehiculo(String placa, Date fechaIngreso) {
-		EntidadCarro carro = new EntidadCarro();
-		carro.setPlaca(placa);
-		carro.setFechaIngreso(fechaIngreso);
-		carro.setEstaEnParqueadero(true);
-		
-		if(!hayCupoCarro()) {
-			throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
-		}else if(!puedeIngresar(carro.getPlaca(), carro.getFechaIngreso())){
-			throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
-		}
-		
-		repositorioCarro.save(carro);
-	}
-	
-	public void ingresarVehiculo(String placa, short cilindrada, Date fechaIngreso) {
-		EntidadMoto moto = new EntidadMoto();
-		moto.setPlaca(placa);
-		moto.setCilindrada(cilindrada);
-		moto.setFechaIngreso(fechaIngreso);
-		moto.setEstaEnParqueadero(true);
-		
-		if(!hayCupoCarro()) {
-			throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
-		}else if(!puedeIngresar(moto.getPlaca(), moto.getFechaIngreso())){
-			throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
-		}
-		
-		repositorioMoto.save(moto);
-	}*/
-	
 	public boolean verificarCupo(Vehiculo vehiculo) {
 		if(vehiculo instanceof Moto) {
-			//System.out.println(obtenerNroMotosEnParqueadero());
-			return obtenerNroMotosEnParqueadero() < CUPO_MAX_MOTOS ? true : false;
+			return obtenerNroMotosEnParqueadero() < CUPO_MAX_MOTOS;
 		}else {
-			return obtenerNroCarrosEnParqueadero() < CUPO_MAX_CARROS ? true : false;
+			return obtenerNroCarrosEnParqueadero() < CUPO_MAX_CARROS;
 		}
 	}
 	
@@ -115,13 +83,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		return repositorioCarro.findByEstaEnParqueadero(true).size();
 	}
 	
-	/*public boolean hayCupoCarro() {
-		return repositorioCarro.findByEstaEnParqueadero(true).size() < 20 ? true : false;
-		
-		
-	}*/
-	
-	public boolean puedeIngresar(String placa, Date fechaIngreso) throws IngresoVehiculoExcepcion {
+	public boolean puedeIngresar(String placa, Date fechaIngreso) {
 		
 		if(!placa.startsWith("A")) {
 			return true;
@@ -130,24 +92,9 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		Calendar calendario = Calendar.getInstance();
 		calendario.setTime(fechaIngreso);
 		
-		System.out.println(calendario.toString());
-		
 		int dia = calendario.get(Calendar.DAY_OF_WEEK);
 		
-		if (dia == Calendar.SUNDAY || dia == Calendar.MONDAY) {
-            return true;
-        }
-		
-		return false;
-		
-		//throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
-	}
-	
-	public void salida(String placa) {
-		
-	}
-	
-	public void cobrar(String placa) { 
+		return dia == Calendar.SUNDAY || dia == Calendar.MONDAY;
 		
 	}
 

@@ -17,13 +17,13 @@ import co.com.ceiba.dominio.servicio.ServicioVigilante;
 @RestController
 public class VigilanteController {
 	
-	private final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
+	private static final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
 	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
 	
 
-    @RequestMapping(path = "/agregar/carro", method = RequestMethod.POST)
+    @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
     public Object registrarIngresoCarro(@RequestBody Carro carro) {
     	
     	try {
@@ -36,11 +36,35 @@ public class VigilanteController {
     	
     }
     
-    @RequestMapping(path = "/agregar/moto", method = RequestMethod.POST)
+    @RequestMapping(path = "/registrar-ingreso/moto", method = RequestMethod.POST)
     public Object registrarIngresoMoto(@RequestBody Moto moto) {
     	
     	try {
     		servicioVigilante.ingresarVehiculo(moto);
+    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
+    		
+    	}catch (IngresoVehiculoExcepcion e) {
+    		return new FormatoRespuesta(e.getMessage(), false, new Date());
+    	}
+    	
+    }
+    
+    @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
+    public Object registrarSalidaCarro(@RequestBody Carro carro) {
+    	
+    	try {
+    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
+    		
+    	}catch (IngresoVehiculoExcepcion e) {
+    		return new FormatoRespuesta(e.getMessage(), false, new Date());
+    	}
+    	
+    }
+    
+    @RequestMapping(path = "/registrar-salida/moto", method = RequestMethod.POST)
+    public Object registrarSalidaMoto(@RequestBody Moto moto) {
+    	
+    	try {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
     		
     	}catch (IngresoVehiculoExcepcion e) {
