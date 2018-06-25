@@ -334,7 +334,7 @@ public class VigilanteTest {
 		
 		//act
 		try {
-			servicioVigilanteImpl.retirarVehiculo(moto.getPlaca());
+			servicioVigilanteImpl.retirarVehiculo(moto.getPlaca(), new Date());
 		}catch (SalidaVehiculoExcepcion e) {
 			fail();
 		}
@@ -355,7 +355,7 @@ public class VigilanteTest {
 		
 		try {
 			//act
-			servicioVigilanteImpl.retirarVehiculo(moto.getPlaca());
+			servicioVigilanteImpl.retirarVehiculo(moto.getPlaca(), new Date());
 			fail();
 		}catch (SalidaVehiculoExcepcion e) {
 			
@@ -382,7 +382,7 @@ public class VigilanteTest {
 		
 		//act
 		try {
-			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca());
+			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca(), new Date());
 		}catch (SalidaVehiculoExcepcion e) {
 			fail();
 		}
@@ -403,7 +403,7 @@ public class VigilanteTest {
 		
 		try {
 			//act
-			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca());
+			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca(), new Date());
 			fail();
 		}catch (SalidaVehiculoExcepcion e) {
 			

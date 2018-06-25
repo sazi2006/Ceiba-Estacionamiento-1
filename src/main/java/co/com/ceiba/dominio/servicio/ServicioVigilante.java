@@ -12,6 +12,7 @@ public interface ServicioVigilante {
 	
 	public boolean puedeIngresar(String placa, Date fechaIngreso);
 	
-	public void retirarVehiculo(String placa);
+	public Vehiculo retirarVehiculo(String placa, Date fechaSalida);
+	
 
 }

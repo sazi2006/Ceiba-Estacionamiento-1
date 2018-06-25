@@ -12,6 +12,7 @@ public class VehiculoTestDataBuilder {
 	
 	private String placa;
 	private Date fechaIngreso;
+	private Date fechaSalida;
 	private boolean estaEnParqueadero;
 	
 	public VehiculoTestDataBuilder(String placa, Date fechaIngreso, boolean estaEnParqueadero) {
@@ -42,6 +43,14 @@ public class VehiculoTestDataBuilder {
 		this.fechaIngreso = fechaIngreso;
 	}
 
+	public Date getFechaSalida() {
+		return fechaSalida;
+	}
+
+	public void setFechaSalida(Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
+	}
+
 	public boolean estaEnParqueadero() {
 		return estaEnParqueadero;
 	}
@@ -60,13 +69,18 @@ public class VehiculoTestDataBuilder {
 		return this;
 	}
 	
+	public VehiculoTestDataBuilder conFechaSalida(Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
+		return this;
+	}
+	
 	public VehiculoTestDataBuilder estaEnParqueadero(boolean estaEnParqueadero) {
 		this.estaEnParqueadero = estaEnParqueadero;
 		return this;
 	}
 
 	public Vehiculo build() {
-		return new Vehiculo(this.placa, this.fechaIngreso, this.estaEnParqueadero);
+		return new Vehiculo(this.placa, this.fechaIngreso, this.fechaSalida, this.estaEnParqueadero);
 	}
 	
 }

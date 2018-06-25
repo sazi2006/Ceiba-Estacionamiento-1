@@ -18,6 +18,8 @@ public abstract class EntidadVehiculo {
 	@Column(nullable = false)
 	private Date fechaIngreso;
 	
+	private Date fechaSalida;
+	
 	private boolean estaEnParqueadero;
 	
 	public String getPlaca() {
@@ -42,6 +44,14 @@ public abstract class EntidadVehiculo {
 
 	public void setEstaEnParqueadero(boolean estaEnParqueadero) {
 		this.estaEnParqueadero = estaEnParqueadero;
+	}
+
+	public Date getFechaSalida() {
+		return fechaSalida;
+	}
+
+	public void setFechaSalida(Date fechaSalida) {
+		this.fechaSalida = fechaSalida;
 	}
 	
 	

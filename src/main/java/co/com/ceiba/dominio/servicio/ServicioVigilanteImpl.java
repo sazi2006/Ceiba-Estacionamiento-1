@@ -12,6 +12,8 @@ import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
+import co.com.ceiba.persistencia.builder.CarroBuilder;
+import co.com.ceiba.persistencia.builder.MotoBuilder;
 import co.com.ceiba.persistencia.entidad.EntidadCarro;
 import co.com.ceiba.persistencia.entidad.EntidadMoto;
 import co.com.ceiba.persistencia.repositorio.RepositorioCarro;
@@ -43,16 +45,11 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		
 		if(vehiculo instanceof Moto) {
 			Moto vehiculoEsp = (Moto) vehiculo;
-			moto = new EntidadMoto();
-			moto.setPlaca(vehiculoEsp.getPlaca());
-			moto.setCilindrada(vehiculoEsp.getCilindrada());
-			moto.setFechaIngreso(vehiculoEsp.getFechaIngreso());
+			moto = MotoBuilder.convertirAEntidad(vehiculoEsp);
 			moto.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}else if(vehiculo instanceof Carro) {
 			Carro vehiculoEsp = (Carro) vehiculo;
-			carro = new EntidadCarro();
-			carro.setPlaca(vehiculoEsp.getPlaca());
-			carro.setFechaIngreso(vehiculoEsp.getFechaIngreso());
+			carro = CarroBuilder.convertirAEntidad(vehiculoEsp);
 			carro.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}
 		
@@ -103,20 +100,29 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		
 	}
 	
-	public void retirarVehiculo(String placa) {
+	public Vehiculo retirarVehiculo(String placa, Date fechaSalida) {
+		
+		Vehiculo vehiculo = null;
 		
 		EntidadCarro carro = repositorioCarro.findByPlaca(placa);
 		EntidadMoto moto = repositorioMoto.findByPlaca(placa);
 		
 		if(moto != null && moto.estaEnParqueadero()) {
 			moto.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			moto.setFechaSalida(fechaSalida);
 			repositorioMoto.save(moto);
+			vehiculo = MotoBuilder.convertirADominio(moto);
+			
 		}else if(carro != null && carro.estaEnParqueadero()) {
 			carro.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			carro.setFechaSalida(fechaSalida);
 			repositorioCarro.save(carro);
+			vehiculo = CarroBuilder.convertirADominio(carro);
+			
 		}else {
 			throw new SalidaVehiculoExcepcion(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}
+		
+		return vehiculo;
 	}
-
 }

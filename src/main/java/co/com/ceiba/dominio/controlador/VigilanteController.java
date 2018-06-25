@@ -3,12 +3,14 @@ package co.com.ceiba.dominio.controlador;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.dominio.Carro;
+import co.com.ceiba.dominio.Cobro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
@@ -52,12 +54,17 @@ public class VigilanteController {
     	
     }
     
-    @RequestMapping(path = "/registrar-salida/vehiculo", method = RequestMethod.POST)
-    public Object registrarSalidaCarro(@RequestBody Vehiculo vehiculo) {
+    @RequestMapping(path = "/registrar-salida/vehiculo/{placa}-{fechaSalida}", method = RequestMethod.DELETE)
+    public Object registrarSalidaCarro(@PathVariable("placa") String placa, @PathVariable("fechaSalida") Date fechaSalida) {
+    	
+    	Vehiculo vehiculo = null;
+    	int valorCobro = 0;
     	
     	try {
-    		servicioVigilante.retirarVehiculo(vehiculo.getPlaca());
-    		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, true, vehiculo, new Date());
+    		vehiculo = servicioVigilante.retirarVehiculo(placa, fechaSalida);
+    		valorCobro = Cobro.generarCobro(vehiculo);
+    		
+    		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, true, valorCobro, new Date());
     		
     	}catch (SalidaVehiculoExcepcion e) {
     		return new FormatoRespuesta(e.getMessage(), false, new Date());
