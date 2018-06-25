@@ -49,7 +49,7 @@ public class VigilanteController {
     	
     }
     
-    @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
+    @RequestMapping(path = "/registrar-salida/carro", method = RequestMethod.POST)
     public Object registrarSalidaCarro(@RequestBody Carro carro) {
     	
     	try {
