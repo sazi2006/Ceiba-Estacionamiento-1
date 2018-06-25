@@ -11,8 +11,8 @@ public class Moto extends Vehiculo{
 	
 	@JsonCreator
 	public Moto(@JsonProperty(value="placa", required=true) String placa,
-			@JsonProperty(value="cilindrada", required=true) short cilindrada,
-			@JsonProperty(value="fechaIngreso", required=true) Date fechaIngreso, 
+			@JsonProperty(value="cilindrada") short cilindrada,
+			@JsonProperty(value="fechaIngreso") Date fechaIngreso, 
 			@JsonProperty(value="estaEnParqueadero", defaultValue="false") boolean estaEnParqueadero) {
 		
 		super(placa, fechaIngreso, estaEnParqueadero);

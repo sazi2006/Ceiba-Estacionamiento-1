@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
+import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.dominio.respuesta.FormatoRespuesta;
 import co.com.ceiba.dominio.servicio.ServicioVigilante;
 
@@ -18,6 +20,7 @@ import co.com.ceiba.dominio.servicio.ServicioVigilante;
 public class VigilanteController {
 	
 	private static final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
+	private static final String EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO = "El vehiculo ha sido retirado del parqueadero exitosamente";
 	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
@@ -49,29 +52,19 @@ public class VigilanteController {
     	
     }
     
-    @RequestMapping(path = "/registrar-salida/carro", method = RequestMethod.POST)
-    public Object registrarSalidaCarro(@RequestBody Carro carro) {
+    @RequestMapping(path = "/registrar-salida/vehiculo", method = RequestMethod.POST)
+    public Object registrarSalidaCarro(@RequestBody Vehiculo vehiculo) {
     	
     	try {
-    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
+    		servicioVigilante.retirarVehiculo(vehiculo.getPlaca());
+    		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, true, vehiculo, new Date());
     		
-    	}catch (IngresoVehiculoExcepcion e) {
+    	}catch (SalidaVehiculoExcepcion e) {
     		return new FormatoRespuesta(e.getMessage(), false, new Date());
     	}
     	
     }
     
-    @RequestMapping(path = "/registrar-salida/moto", method = RequestMethod.POST)
-    public Object registrarSalidaMoto(@RequestBody Moto moto) {
-    	
-    	try {
-    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
-    		
-    	}catch (IngresoVehiculoExcepcion e) {
-    		return new FormatoRespuesta(e.getMessage(), false, new Date());
-    	}
-    	
-    }
 }
 
 

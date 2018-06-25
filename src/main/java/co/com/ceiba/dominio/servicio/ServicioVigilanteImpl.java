@@ -11,6 +11,7 @@ import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.persistencia.entidad.EntidadCarro;
 import co.com.ceiba.persistencia.entidad.EntidadMoto;
 import co.com.ceiba.persistencia.repositorio.RepositorioCarro;
@@ -22,9 +23,12 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	
 	public static final String NO_HAY_CUPO = "No puede ingresar, el parqueadero se encuentra lleno";
 	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no está en un dia hábil";
+	public static final String EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo solicitado no se encuentra en el parqueadero";
 	
 	public static final int CUPO_MAX_MOTOS = 10;
 	public static final int CUPO_MAX_CARROS = 20;
+	private static final boolean SE_ENCUENTRA_EN_EL_PARQUEADERO = true;
+	private static final boolean NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = false;
 	
 	@Autowired
 	private RepositorioCarro repositorioCarro;
@@ -43,13 +47,13 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 			moto.setPlaca(vehiculoEsp.getPlaca());
 			moto.setCilindrada(vehiculoEsp.getCilindrada());
 			moto.setFechaIngreso(vehiculoEsp.getFechaIngreso());
-			moto.setEstaEnParqueadero(true);
+			moto.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}else if(vehiculo instanceof Carro) {
 			Carro vehiculoEsp = (Carro) vehiculo;
 			carro = new EntidadCarro();
 			carro.setPlaca(vehiculoEsp.getPlaca());
 			carro.setFechaIngreso(vehiculoEsp.getFechaIngreso());
-			carro.setEstaEnParqueadero(true);
+			carro.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}
 		
 		if(!verificarCupo(vehiculo)) {
@@ -94,8 +98,25 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		
 		int dia = calendario.get(Calendar.DAY_OF_WEEK);
 		
+		
 		return dia == Calendar.SUNDAY || dia == Calendar.MONDAY;
 		
+	}
+	
+	public void retirarVehiculo(String placa) {
+		
+		EntidadCarro carro = repositorioCarro.findByPlaca(placa);
+		EntidadMoto moto = repositorioMoto.findByPlaca(placa);
+		
+		if(moto != null && moto.estaEnParqueadero()) {
+			moto.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			repositorioMoto.save(moto);
+		}else if(carro != null && carro.estaEnParqueadero()) {
+			carro.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			repositorioCarro.save(carro);
+		}else {
+			throw new SalidaVehiculoExcepcion(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+		}
 	}
 
 }
