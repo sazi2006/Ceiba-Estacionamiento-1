@@ -5,4 +5,6 @@ import javax.transaction.Transactional;
 import co.com.ceiba.persistencia.entidad.EntidadVehiculo;
 
 @Transactional
-public interface RepositorioVehiculo extends RepositorioBaseVehiculo<EntidadVehiculo> { /* ... */ }
+public interface RepositorioVehiculo extends RepositorioBaseVehiculo<EntidadVehiculo> {
+	EntidadVehiculo findByPlaca(String placa);
+}

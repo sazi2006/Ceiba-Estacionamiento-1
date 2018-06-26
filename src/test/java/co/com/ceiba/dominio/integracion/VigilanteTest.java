@@ -1,13 +1,14 @@
 package co.com.ceiba.dominio.integracion;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Date;
 
 import javax.transaction.Transactional;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.dominio.servicio.ServicioVigilanteImpl;
+import co.com.ceiba.persistencia.builder.CarroBuilder;
+import co.com.ceiba.persistencia.builder.MotoBuilder;
+import co.com.ceiba.persistencia.entidad.EntidadCarro;
+import co.com.ceiba.persistencia.entidad.EntidadMoto;
 import co.com.ceiba.persistencia.repositorio.RepositorioCarro;
 import co.com.ceiba.persistencia.repositorio.RepositorioMoto;
 import testdatabuilder.CarroTestDataBuilder;
@@ -61,7 +67,7 @@ public class VigilanteTest {
 		}
 		
 		//assert
-		Assert.assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
+		assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
 		
 	}
 	
@@ -121,7 +127,7 @@ public class VigilanteTest {
 			fail();
 			
 		}
-		Assert.assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
+		assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
 		
 	}
 	
@@ -149,7 +155,7 @@ public class VigilanteTest {
 			fail();
 		}
 		
-		Assert.assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
+		assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
 		
 	}
 	
@@ -196,7 +202,7 @@ public class VigilanteTest {
 		}
 		
 		//assert
-		Assert.assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
+		assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
 		
 	}
 	
@@ -253,7 +259,7 @@ public class VigilanteTest {
 			fail();
 			
 		}
-		Assert.assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
+		assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
 		
 	}
 	
@@ -282,7 +288,7 @@ public class VigilanteTest {
 			fail();
 		}
 		
-		Assert.assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
+		assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
 		
 	}
 	
@@ -309,6 +315,101 @@ public class VigilanteTest {
 			assertEquals(ServicioVigilanteImpl.NO_ESTA_EN_UN_DIA_HABIL, e.getMessage());
 		}
 		
+	}
+	
+	@Test
+	@Transactional
+	public void retirarMotoTest() {
+		//arrange
+		
+		MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder().
+				conPlaca(PLACA_MOTO);
+		
+		Moto moto = motoTestDataBuilder.build();
+		
+		EntidadMoto entidadMoto = MotoBuilder.convertirAEntidad(moto);
+		entidadMoto.setEstaEnParqueadero(true);
+		
+		repositorioMoto.save(entidadMoto);
+		
+		//act
+		try {
+			servicioVigilanteImpl.retirarVehiculo(moto.getPlaca(), new Date());
+		}catch (SalidaVehiculoExcepcion e) {
+			fail();
+		}
+		
+		//assert
+		assertFalse(repositorioMoto.findByPlaca(moto.getPlaca()).estaEnParqueadero());
+	}
+	
+	@Test
+	@Transactional
+	public void retirarMotoNoParqueadaTest() {
+		//arrange
+		
+		MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder().
+				conPlaca(PLACA_MOTO);
+		
+		Moto moto = motoTestDataBuilder.build();
+		
+		try {
+			//act
+			servicioVigilanteImpl.retirarVehiculo(moto.getPlaca(), new Date());
+			fail();
+		}catch (SalidaVehiculoExcepcion e) {
+			
+			//assert
+			assertEquals(ServicioVigilanteImpl.EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	@Transactional
+	public void retirarCarroTest() {
+		//arrange
+		
+		CarroTestDataBuilder carroTestDataBuilder = new CarroTestDataBuilder().
+				conPlaca(PLACA_CARRO);
+		
+		Carro carro = carroTestDataBuilder.build();
+		
+		EntidadCarro entidadCarro = CarroBuilder.convertirAEntidad(carro);
+		entidadCarro.setEstaEnParqueadero(true);
+		
+		repositorioCarro.save(entidadCarro);
+		
+		//act
+		try {
+			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca(), new Date());
+		}catch (SalidaVehiculoExcepcion e) {
+			fail();
+		}
+		
+		//assert
+		assertFalse(repositorioCarro.findByPlaca(carro.getPlaca()).estaEnParqueadero());
+	}
+	
+	@Test
+	@Transactional
+	public void retirarCarroNoParqueadaTest() {
+		//arrange
+		
+		CarroTestDataBuilder carroTestDataBuilder = new CarroTestDataBuilder().
+				conPlaca(PLACA_CARRO);
+		
+		Carro carro = carroTestDataBuilder.build();
+		
+		try {
+			//act
+			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca(), new Date());
+			fail();
+		}catch (SalidaVehiculoExcepcion e) {
+			
+			//assert
+			assertEquals(ServicioVigilanteImpl.EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, e.getMessage());
+		}
 		
 	}
 	

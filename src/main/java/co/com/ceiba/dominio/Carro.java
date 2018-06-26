@@ -9,10 +9,11 @@ public class Carro extends Vehiculo{
 	
 	@JsonCreator
 	public Carro(@JsonProperty(value="placa", required=true) String placa,
-			@JsonProperty(value="fechaIngreso", required=true) Date fechaIngreso,
+			@JsonProperty(value="fechaIngreso") Date fechaIngreso,
+			@JsonProperty(value="fechaSalida") Date fechaSalida,
 			@JsonProperty(value="estaEnParqueadero", defaultValue="false") boolean estaEnParqueadero) {
 		
-		super(placa, fechaIngreso, estaEnParqueadero);
+		super(placa, fechaIngreso, fechaSalida, estaEnParqueadero);
 	}
 	
 }
