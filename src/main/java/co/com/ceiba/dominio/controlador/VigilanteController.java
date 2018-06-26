@@ -18,8 +18,10 @@ import co.com.ceiba.dominio.Cobro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.excepcion.ObtenerVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.dominio.respuesta.FormatoRespuesta;
+import co.com.ceiba.dominio.respuesta.FormatoRespuestaVehiculo;
 import co.com.ceiba.dominio.servicio.ServicioVigilante;
 
 @RestController
@@ -31,10 +33,32 @@ public class VigilanteController {
 	private static final boolean ESTADO_OK = true;
 	private static final boolean ESTADO_FALLO = false;
 	
+	private static final String ERROR_AL_INGRESAR_EL_VEHICULO = "Error al tratar de ingresar el vehiculo: ";
+	
 	public static final Logger logger = LoggerFactory.getLogger(VigilanteController.class);
 	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
+	
+	
+	@RequestMapping("/obtener/vehiculo/{placa}")
+    public FormatoRespuesta obtenerVehiculo(@PathVariable(value="placa") String placa) {
+		
+		try {
+			Vehiculo vehiculo = servicioVigilante.obtenerVehiculo(placa);
+			
+			if(vehiculo instanceof Carro) {
+				return new FormatoRespuestaVehiculo("OK", ESTADO_OK, (Carro) vehiculo, "Carro");
+			}else {
+				return new FormatoRespuestaVehiculo("OK", ESTADO_OK, (Moto) vehiculo, "Moto");
+			}
+			
+		}catch (ObtenerVehiculoExcepcion e) {
+			logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+			return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+		}
+			
+    }
 	
 
     @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
@@ -45,7 +69,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
     	}catch (IngresoVehiculoExcepcion e) {
-    		logger.error("Error al tratar de ingresar el vehiculo: ", e.getMessage());
+    		logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
@@ -59,7 +83,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
     	}catch (IngresoVehiculoExcepcion e) {
-    		logger.error("Error al tratar de ingresar el vehiculo: ", e.getMessage());
+    		logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
@@ -77,7 +101,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, ESTADO_OK, valorCobro);
     		
     	}catch (SalidaVehiculoExcepcion e) {
-    		logger.error("Error al tratar de ingresar el vehiculo: ", e.getMessage());
+    		logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	

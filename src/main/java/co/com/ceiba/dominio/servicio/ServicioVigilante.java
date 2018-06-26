@@ -14,5 +14,7 @@ public interface ServicioVigilante {
 	
 	public Vehiculo retirarVehiculo(String placa, Date fechaSalida);
 	
+	public Vehiculo obtenerVehiculo(String placa);
+	
 
 }

@@ -6,20 +6,20 @@ public class FormatoRespuesta {
 	private String mensaje;
 	private boolean estado;
 	private Object contenido;
-	private Date fecha;
+	private Date timestamp;
 	
 	public FormatoRespuesta(String mensaje, boolean estado, Object contenido) {
 		this.mensaje = mensaje;
 		this.estado = estado;
 		this.contenido = contenido;
-		this.fecha = new Date();
+		this.timestamp = new Date();
 	}
 	
 	public FormatoRespuesta(String mensaje, boolean estado) {
 		this.mensaje = mensaje;
 		this.estado = estado;
 		this.contenido = null;
-		this.fecha = new Date();
+		this.timestamp = new Date();
 	}
 	
 	public String getMensaje() {
@@ -43,11 +43,11 @@ public class FormatoRespuesta {
 		this.contenido = contenido;
 	}
 	
-	public Date getFecha() {
-		return fecha;
+	public Date getTimestamp() {
+		return timestamp;
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
 	}
 	
 	

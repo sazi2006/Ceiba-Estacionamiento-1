@@ -12,6 +12,7 @@ import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.excepcion.ObtenerVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.persistencia.builder.CarroBuilder;
 import co.com.ceiba.persistencia.builder.MotoBuilder;
@@ -107,8 +108,6 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	
 	public Vehiculo retirarVehiculo(String placa, Date fechaSalida) {
 		
-		Vehiculo vehiculo = null;
-		
 		EntidadCarro carro = repositorioCarro.findByPlaca(placa);
 		EntidadMoto moto = repositorioMoto.findByPlaca(placa);
 		
@@ -116,18 +115,34 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 			moto.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
 			moto.setFechaSalida(fechaSalida);
 			repositorioMoto.save(moto);
-			vehiculo = MotoBuilder.convertirADominio(moto);
+			return MotoBuilder.convertirADominio(moto);
 			
 		}else if(carro != null && carro.estaEnParqueadero()) {
 			carro.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
 			carro.setFechaSalida(fechaSalida);
 			repositorioCarro.save(carro);
-			vehiculo = CarroBuilder.convertirADominio(carro);
+			return CarroBuilder.convertirADominio(carro);
 			
 		}else {
 			throw new SalidaVehiculoExcepcion(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}
+	}
+	
+	public Vehiculo obtenerVehiculo(String placa) {
 		
-		return vehiculo;
+		EntidadCarro carro = repositorioCarro.findByPlaca(placa);
+		EntidadMoto moto = repositorioMoto.findByPlaca(placa);
+		
+		if(moto != null && moto.estaEnParqueadero()) {
+			return MotoBuilder.convertirADominio(moto);
+			
+		}else if(carro != null && carro.estaEnParqueadero()) {
+			return CarroBuilder.convertirADominio(carro);
+			
+		}else {
+			throw new ObtenerVehiculoExcepcion(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+		}
+		
+		
 	}
 }
