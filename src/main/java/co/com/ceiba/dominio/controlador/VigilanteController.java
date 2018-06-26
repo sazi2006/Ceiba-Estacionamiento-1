@@ -2,10 +2,11 @@ package co.com.ceiba.dominio.controlador;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,8 @@ public class VigilanteController {
 	private static final boolean ESTADO_OK = true;
 	private static final boolean ESTADO_FALLO = false;
 	
+	public static final Logger logger = LoggerFactory.getLogger(VigilanteController.class);
+	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
 	
@@ -42,6 +45,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
     	}catch (IngresoVehiculoExcepcion e) {
+    		logger.error("Error al tratar de ingresar el vehiculo: ", e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
@@ -55,6 +59,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
     	}catch (IngresoVehiculoExcepcion e) {
+    		logger.error("Error al tratar de ingresar el vehiculo: ", e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
@@ -72,6 +77,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, ESTADO_OK, valorCobro);
     		
     	}catch (SalidaVehiculoExcepcion e) {
+    		logger.error("Error al tratar de ingresar el vehiculo: ", e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
