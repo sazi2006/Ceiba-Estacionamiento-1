@@ -1,27 +1,26 @@
 package co.com.ceiba.persistencia.entidad;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name="Moto")
 public class EntidadMoto extends EntidadVehiculo{
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+	@Column(nullable = false)
+	private String placa;
 	
 	private short cilindrada;
 	
 	@Override
-	public Long getId() {
-		return id;
+	public String getPlaca() {
+		return placa;
 	}
 	
 	@Override
-	public void setId(Long id) {
-		this.id = id;
+	public void setPlaca(String placa) {
+		this.placa = placa;
 	}
 	
 	public short getCilindrada() {

@@ -20,8 +20,13 @@ public class CarroTestDataBuilder extends VehiculoTestDataBuilder{
 		return this;
 	}
 	
+	public CarroTestDataBuilder conFechaSalida(Date fechaSalida) {
+		this.setFechaSalida(fechaSalida);
+		return this;
+	}
+	
 	public Carro build() {
-		return new Carro(this.getPlaca(), this.getFechaIngreso(), this.estaEnParqueadero());
+		return new Carro(this.getPlaca(), this.getFechaIngreso(), this.getFechaSalida(), this.estaEnParqueadero());
 	}
 	
 }

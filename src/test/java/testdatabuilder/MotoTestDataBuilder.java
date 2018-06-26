@@ -26,6 +26,11 @@ public class MotoTestDataBuilder extends VehiculoTestDataBuilder {
 		return this;
 	}
 	
+	public MotoTestDataBuilder conFechaSalida(Date fechaSalida) {
+		this.setFechaSalida(fechaSalida);
+		return this;
+	}
+	
 	public MotoTestDataBuilder estaEnParqueadero(boolean estaEnParqueadero) {
 		this.setEstaEnParqueadero(estaEnParqueadero);
 		return this;
@@ -37,7 +42,7 @@ public class MotoTestDataBuilder extends VehiculoTestDataBuilder {
 	}
 	
 	public Moto build() {
-		return new Moto(this.getPlaca(), this.cilindrada, this.getFechaIngreso(), this.estaEnParqueadero());
+		return new Moto(this.getPlaca(), this.cilindrada, this.getFechaIngreso(), this.getFechaSalida(), this.estaEnParqueadero());
 	}
 
 }
