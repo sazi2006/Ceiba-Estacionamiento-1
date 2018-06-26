@@ -63,7 +63,6 @@ public class VigilanteController {
 
     @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
     public FormatoRespuesta registrarIngresoCarro(@RequestBody Carro carro) {
-    	
     	try {
     		servicioVigilante.ingresarVehiculo(carro);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
@@ -92,10 +91,9 @@ public class VigilanteController {
     @RequestMapping(path = "/registrar-salida/vehiculo/{placa}/{fechaSalida}", method = RequestMethod.DELETE)
     public FormatoRespuesta registrarSalidaCarro(@PathVariable("placa") String placa, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("fechaSalida") Date fechaSalida) {
     	
-    	Vehiculo vehiculo = null;
-    	int valorCobro = 0;
+    	int valorCobro;
     	try {
-    		vehiculo = servicioVigilante.retirarVehiculo(placa, fechaSalida);
+    		Vehiculo vehiculo = servicioVigilante.retirarVehiculo(placa, fechaSalida);
     		valorCobro = Cobro.generarCobro(vehiculo);
     		
     		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, ESTADO_OK, valorCobro);
