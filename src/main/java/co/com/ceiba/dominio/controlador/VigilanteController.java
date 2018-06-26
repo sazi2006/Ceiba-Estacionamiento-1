@@ -63,7 +63,6 @@ public class VigilanteController {
 
     @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
     public FormatoRespuesta registrarIngresoCarro(@RequestBody Carro carro) {
-    	
     	try {
     		servicioVigilante.ingresarVehiculo(carro);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
