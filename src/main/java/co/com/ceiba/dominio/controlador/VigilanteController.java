@@ -35,7 +35,7 @@ public class VigilanteController {
 	
 	private static final String ERROR_AL_INGRESAR_EL_VEHICULO = "Error al tratar de ingresar el vehiculo: ";
 	
-	public static final Logger logger = LoggerFactory.getLogger(VigilanteController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VigilanteController.class);
 	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
@@ -54,7 +54,7 @@ public class VigilanteController {
 			}
 			
 		}catch (ObtenerVehiculoExcepcion e) {
-			logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+			LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
 			return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
 		}
 			
@@ -68,7 +68,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
     	}catch (IngresoVehiculoExcepcion e) {
-    		logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+    		LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
@@ -82,7 +82,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
     	}catch (IngresoVehiculoExcepcion e) {
-    		logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+    		LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
@@ -99,7 +99,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, ESTADO_OK, valorCobro);
     		
     	}catch (SalidaVehiculoExcepcion e) {
-    		logger.error(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+    		LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	

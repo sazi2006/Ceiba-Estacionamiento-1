@@ -1,6 +1,6 @@
 package co.com.ceiba.dominio;
 
-public class Cobro {
+public final class Cobro {
 	
 	private Cobro() {}
 	

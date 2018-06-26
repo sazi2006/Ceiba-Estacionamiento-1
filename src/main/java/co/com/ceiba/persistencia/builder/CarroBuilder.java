@@ -3,7 +3,7 @@ package co.com.ceiba.persistencia.builder;
 import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.persistencia.entidad.EntidadCarro;
 
-public class CarroBuilder {
+public final class CarroBuilder {
 	private CarroBuilder() {}
 	
 	public static Carro convertirADominio(EntidadCarro entidadCarro) {

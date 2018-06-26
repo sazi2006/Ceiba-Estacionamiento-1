@@ -3,7 +3,7 @@ package co.com.ceiba.persistencia.builder;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.persistencia.entidad.EntidadMoto;
 
-public class MotoBuilder {
+public final class MotoBuilder {
 	private MotoBuilder() {}
 	
 	public static Moto convertirADominio(EntidadMoto entidadMoto) {
