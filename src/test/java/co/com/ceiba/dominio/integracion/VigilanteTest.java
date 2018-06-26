@@ -1,5 +1,6 @@
 package co.com.ceiba.dominio.integracion;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import co.com.ceiba.dominio.Carro;
 import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
+import co.com.ceiba.dominio.excepcion.ObtenerVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.dominio.servicio.ServicioVigilanteImpl;
 import co.com.ceiba.persistencia.builder.CarroBuilder;
@@ -37,7 +39,7 @@ import testdatabuilder.MotoTestDataBuilder;
 public class VigilanteTest {
 
 	private static final String PLACA_MOTO = "IJX14E";
-	private static final String PLACA_CARRO = "IHV102";
+	private static final String PLACA_CARRO= "IHV102";
 	private static final String PLACA_COMIENZA_CON_A = "AJX14E";
 	
 	@Autowired
@@ -406,6 +408,101 @@ public class VigilanteTest {
 			servicioVigilanteImpl.retirarVehiculo(carro.getPlaca(), new Date());
 			fail();
 		}catch (SalidaVehiculoExcepcion e) {
+			
+			//assert
+			assertEquals(ServicioVigilanteImpl.EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, e.getMessage());
+		}
+		
+	}
+	
+	@Test
+	@Transactional
+	public void obtenerCarroExistenteTest() {
+		//arrange
+		
+		CarroTestDataBuilder carroTestDataBuilder = new CarroTestDataBuilder().
+				conPlaca(PLACA_CARRO)
+				.estaEnParqueadero(true);
+		
+		Carro carro = carroTestDataBuilder.build();
+		
+		EntidadCarro entidadCarro = CarroBuilder.convertirAEntidad(carro);
+		
+		repositorioCarro.save(entidadCarro);
+		
+		Carro carroObtenido = null;
+		
+		//act
+		try {
+			carroObtenido = (Carro) servicioVigilanteImpl.obtenerVehiculo(carro.getPlaca());
+			
+		}catch (ObtenerVehiculoExcepcion e) {
+			fail();
+		}
+		
+		//assert
+		assertThat(carro).isEqualToComparingFieldByField(carroObtenido);
+	}
+	
+	@Test
+	public void obtenerCarroNoExistenteTest() {
+		
+		//arrange
+		
+		try {
+			
+			//act
+			servicioVigilanteImpl.obtenerVehiculo(PLACA_CARRO);
+			fail();
+		}catch (ObtenerVehiculoExcepcion e) {
+			
+			//assert
+			assertEquals(ServicioVigilanteImpl.EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, e.getMessage());
+		}
+		
+	}
+	
+	
+	@Test
+	@Transactional
+	public void obtenerMotoExistenteTest() {
+		//arrange
+		
+		MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder().
+				conPlaca(PLACA_CARRO)
+				.estaEnParqueadero(true);
+		
+		Moto moto = motoTestDataBuilder.build();
+		
+		EntidadMoto entidadMoto = MotoBuilder.convertirAEntidad(moto);
+		
+		repositorioMoto.save(entidadMoto);
+		
+		Moto motoObtenida = null;
+		
+		//act
+		try {
+			motoObtenida = (Moto) servicioVigilanteImpl.obtenerVehiculo(moto.getPlaca());
+			
+		}catch (ObtenerVehiculoExcepcion e) {
+			fail();
+		}
+		
+		//assert
+		assertThat(moto).isEqualToComparingFieldByField(motoObtenida);
+	}
+	
+	@Test
+	public void obtenerMotoNoExistenteTest() {
+		
+		//arrange
+		
+		try {
+			
+			//act
+			servicioVigilanteImpl.obtenerVehiculo(PLACA_CARRO);
+			fail();
+		}catch (ObtenerVehiculoExcepcion e) {
 			
 			//assert
 			assertEquals(ServicioVigilanteImpl.EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, e.getMessage());
