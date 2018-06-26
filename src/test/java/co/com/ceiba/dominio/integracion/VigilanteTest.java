@@ -10,8 +10,6 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
-import org.hamcrest.Matcher;
-import org.hamcrest.beans.SamePropertyValuesAs;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
