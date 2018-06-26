@@ -12,7 +12,7 @@ public class MotoBuilder {
 			moto = new Moto(entidadMoto.getPlaca(),
 					entidadMoto.getCilindrada(),
 					entidadMoto.getFechaIngreso(),
-					null,
+					entidadMoto.getFechaSalida(),
 					entidadMoto.estaEnParqueadero());
 		}
 		return moto;
@@ -23,6 +23,7 @@ public class MotoBuilder {
 		entidadMoto.setPlaca(moto.getPlaca());
 		entidadMoto.setCilindrada(moto.getCilindrada());
 		entidadMoto.setFechaIngreso(moto.getFechaIngreso());
+		entidadMoto.setFechaSalida(moto.getFechaSalida());
 		entidadMoto.setEstaEnParqueadero(moto.estaEnParqueadero());
 		
 		return entidadMoto;

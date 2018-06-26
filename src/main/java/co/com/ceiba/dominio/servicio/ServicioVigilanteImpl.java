@@ -3,8 +3,10 @@ package co.com.ceiba.dominio.servicio;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.init.ScriptException;
 import org.springframework.stereotype.Service;
 
 import co.com.ceiba.dominio.Carro;
@@ -26,6 +28,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	public static final String NO_HAY_CUPO = "No puede ingresar, el parqueadero se encuentra lleno";
 	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no está en un dia hábil";
 	public static final String EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo solicitado no se encuentra en el parqueadero";
+	public static final String PLACA_EN_USO = "El vehiculo ya se encuentra en el parqueadero";
 	
 	public static final int CUPO_MAX_MOTOS = 10;
 	public static final int CUPO_MAX_CARROS = 20;
@@ -59,12 +62,15 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 			throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
 		}
 		
-		if(carro != null) {
-			repositorioCarro.save(carro);
-		}else if(moto != null){
-			repositorioMoto.save(moto);
+		try {
+			if(carro != null) {
+				repositorioCarro.save(carro);
+			}else if(moto != null){
+				repositorioMoto.save(moto);
+			}
+		}catch (ConstraintViolationException e) {
+			throw new IngresoVehiculoExcepcion(PLACA_EN_USO);
 		}
-		
 		
 	}
 	

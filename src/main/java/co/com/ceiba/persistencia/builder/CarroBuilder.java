@@ -9,7 +9,7 @@ public class CarroBuilder {
 	public static Carro convertirADominio(EntidadCarro entidadCarro) {
 		Carro carro = null;
 		if(entidadCarro != null) {
-			carro = new Carro(entidadCarro.getPlaca(), entidadCarro.getFechaIngreso(), null, entidadCarro.estaEnParqueadero());
+			carro = new Carro(entidadCarro.getPlaca(), entidadCarro.getFechaIngreso(), entidadCarro.getFechaSalida(), entidadCarro.estaEnParqueadero());
 		}
 		return carro;
 	}
@@ -18,6 +18,7 @@ public class CarroBuilder {
 		EntidadCarro entidadCarro = new EntidadCarro();
 		entidadCarro.setPlaca(carro.getPlaca());
 		entidadCarro.setFechaIngreso(carro.getFechaIngreso());
+		entidadCarro.setFechaSalida(carro.getFechaSalida());
 		entidadCarro.setEstaEnParqueadero(carro.estaEnParqueadero());
 		
 		return entidadCarro;

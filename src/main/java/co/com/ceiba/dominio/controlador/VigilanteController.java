@@ -3,6 +3,9 @@ package co.com.ceiba.dominio.controlador;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,50 +27,52 @@ public class VigilanteController {
 	private static final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
 	private static final String EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO = "El vehiculo ha sido retirado del parqueadero exitosamente";
 	
+	private static final boolean ESTADO_OK = true;
+	private static final boolean ESTADO_FALLO = false;
+	
 	@Autowired
 	private ServicioVigilante servicioVigilante;
 	
 
     @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
-    public Object registrarIngresoCarro(@RequestBody Carro carro) {
+    public FormatoRespuesta registrarIngresoCarro(@RequestBody Carro carro) {
     	
     	try {
     		servicioVigilante.ingresarVehiculo(carro);
-    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, carro, new Date());
+    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
     	}catch (IngresoVehiculoExcepcion e) {
-    		return new FormatoRespuesta(e.getMessage(), false, new Date());
+    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
     }
     
     @RequestMapping(path = "/registrar-ingreso/moto", method = RequestMethod.POST)
-    public Object registrarIngresoMoto(@RequestBody Moto moto) {
+    public FormatoRespuesta registrarIngresoMoto(@RequestBody Moto moto) {
     	
     	try {
     		servicioVigilante.ingresarVehiculo(moto);
-    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, true, moto, new Date());
+    		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
     	}catch (IngresoVehiculoExcepcion e) {
-    		return new FormatoRespuesta(e.getMessage(), false, new Date());
+    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
     }
     
-    @RequestMapping(path = "/registrar-salida/vehiculo/{placa}-{fechaSalida}", method = RequestMethod.DELETE)
-    public Object registrarSalidaCarro(@PathVariable("placa") String placa, @PathVariable("fechaSalida") Date fechaSalida) {
+    @RequestMapping(path = "/registrar-salida/vehiculo/{placa}/{fechaSalida}", method = RequestMethod.DELETE)
+    public FormatoRespuesta registrarSalidaCarro(@PathVariable("placa") String placa, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("fechaSalida") Date fechaSalida) {
     	
     	Vehiculo vehiculo = null;
     	int valorCobro = 0;
-    	
     	try {
     		vehiculo = servicioVigilante.retirarVehiculo(placa, fechaSalida);
     		valorCobro = Cobro.generarCobro(vehiculo);
     		
-    		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, true, valorCobro, new Date());
+    		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, ESTADO_OK, valorCobro);
     		
     	}catch (SalidaVehiculoExcepcion e) {
-    		return new FormatoRespuesta(e.getMessage(), false, new Date());
+    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
     }

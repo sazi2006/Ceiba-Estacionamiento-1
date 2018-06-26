@@ -8,18 +8,18 @@ public class FormatoRespuesta {
 	private Object contenido;
 	private Date fecha;
 	
-	public FormatoRespuesta(String mensaje, boolean estado, Object contenido, Date fecha) {
+	public FormatoRespuesta(String mensaje, boolean estado, Object contenido) {
 		this.mensaje = mensaje;
 		this.estado = estado;
 		this.contenido = contenido;
-		this.fecha = fecha;
+		this.fecha = new Date();
 	}
 	
-	public FormatoRespuesta(String mensaje, boolean estado, Date fecha) {
+	public FormatoRespuesta(String mensaje, boolean estado) {
 		this.mensaje = mensaje;
 		this.estado = estado;
 		this.contenido = null;
-		this.fecha = fecha;
+		this.fecha = new Date();
 	}
 	
 	public String getMensaje() {
