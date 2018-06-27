@@ -15,9 +15,10 @@ export class VehiculosService {
 
   //private userUrl = 'http://localhost:8080/user-portal/user';
   private retirarVehiculoURL = '/registrar-salida/vehiculo';
+  private obtenerVehiculoURL = '/obtener/vehiculo';
 
-  public obtenerVehiculo() {
-    return this.http.get<Vehiculo>(this.retirarVehiculoURL);
+  public obtenerVehiculo(placa) {
+    return this.http.get(this.obtenerVehiculoURL + "/" + placa);
   }
 
   public registrarSalida(placa) {

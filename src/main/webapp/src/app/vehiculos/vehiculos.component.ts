@@ -11,11 +11,32 @@ import { VehiculosService } from './vehiculos.service';
 })
 export class VehiculosComponent implements OnInit {
    
-  vehiculo: Vehiculo;
-  constructor(private router: Router, private vehiculosService: VehiculosService) { }
+    vehiculoObt: Vehiculo = new Vehiculo();
+    placa: String;
+    errorObtMessage: String;
 
-  ngOnInit() {
-  }
+    constructor(private router: Router, private vehiculosService: VehiculosService) {
+    
+    }
+    
+    ngOnInit() {
+    };
+    
+    obtenerVehiculo(): void {
+      this.vehiculosService.obtenerVehiculo(this.placa)
+        .subscribe( data => {
+            console.log(data);
+            if(data['estado'] != undefined && data['estado'] == true) {
+                this.vehiculoObt.placa = data['contenido']['placa'];
+                this.vehiculoObt.fechaIngreso = data['contenido']['fechaIngreso'];
+                this.vehiculoObt.cilindrada = data['contenido']['cilindrada'] == undefined ? "N/A" : data['contenido']['cilindrada'];
+                this.vehiculoObt.tipo = data['tipo'];
+            }else if(data['estado'] != undefined && data['estado'] == false){
+                
+                this.errorObtMessage = data['mensaje'];
+            }
+        })
+    };
   
 
 }

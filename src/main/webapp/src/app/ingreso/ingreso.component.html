@@ -26,15 +26,15 @@
 		  </div>
 		  <button class="btn btn-primary" (click)="registrarIngreso()">Enviar</button>
 		  
-		  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+		  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show col-lg-12 col-md-12 col-sm-12" role="alert">
 			  {{successMessage}}
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			    <span aria-hidden="true">&times;</span>
 			  </button>
 		  </div>
 		  
-		  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-			  {{successMessage}}
+		  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show col-lg-12 col-md-12 col-sm-12" role="alert">
+			  {{errorMessage}}
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			    <span aria-hidden="true">&times;</span>
 			  </button>

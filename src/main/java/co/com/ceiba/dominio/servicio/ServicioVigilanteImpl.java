@@ -3,9 +3,9 @@ package co.com.ceiba.dominio.servicio;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import co.com.ceiba.dominio.Carro;
@@ -64,11 +64,13 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		
 		try {
 			if(carro != null) {
+				
 				repositorioCarro.save(carro);
 			}else if(moto != null){
 				repositorioMoto.save(moto);
 			}
-		}catch (ConstraintViolationException e) {
+		} catch (DataAccessException dae) {
+	        System.err.println(dae.getMessage());
 			throw new IngresoVehiculoExcepcion(PLACA_EN_USO);
 		}
 		
