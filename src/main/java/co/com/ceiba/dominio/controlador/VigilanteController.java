@@ -105,6 +105,12 @@ public class VigilanteController {
     	
     }
     
+
+	@RequestMapping(path="/api/hello-world")
+	public String helloWorld(){
+		return "Hello world!";
+	}
+    
 }
 
 
