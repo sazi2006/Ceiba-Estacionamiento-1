@@ -22,7 +22,6 @@ export class VehiculosService {
 
   public registrarSalida(placa) {
     let fechaSalida = new Date().toISOString();
-    alert(this.retirarVehiculoURL + "/"+ placa + "/" + fechaSalida);
     return this.http.delete(this.retirarVehiculoURL + "/"+ placa + "/" + fechaSalida);
   }
 
