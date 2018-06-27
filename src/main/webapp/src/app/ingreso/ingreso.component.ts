@@ -1,15 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { Vehiculo } from '../modelos/vehiculo.model';
+import { VehiculosService } from '../vehiculos/vehiculos.service';
 
 @Component({
-  selector: 'app-ingreso',
   templateUrl: './ingreso.component.html',
-  styleUrls: ['./ingreso.component.css']
-})
-export class IngresoComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  host: {
+      class:'col-lg-4 col-md-6 col-sm-12'
   }
+})
+export class IngresoComponent {
+
+  vehiculo: Vehiculo = new Vehiculo();
+    
+  constructor(private router: Router, private vehiculosService: VehiculosService) { }
+  
+  registrarIngreso(): void {
+      this.vehiculosService.registrarIngreso(this.vehiculo)
+          .subscribe( data => {
+              alert("Se registro el ingreso");
+          })
+  }
+  
 
 }
