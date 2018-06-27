@@ -1,0 +1,37 @@
+<div class="container">
+<div class="row">
+	<h4 class="col-lg-6 col-md-6 col-sm-12">Buscar vehiculo</h4>
+	
+	<form class="form-inline col-lg-6 col-md-6 col-sm-12">
+	      <input class="form-control mr-sm-2" type="search" placeholder="Buscar, Ej: IJX14E" aria-label="Search" [(ngModel)]="placa" name="placa">
+	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="obtenerVehiculo()">Buscar</button>
+	</form>
+	<div *ngIf="errorObtMessage" class="alert alert-danger alert-dismissible fade show col-lg-12 col-md-12 col-sm-12" role="alert">
+		  {{ errorObtMessage }}
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+	</div>
+</div>
+<br>
+<div class="row">
+<table class="table" *ngIf="vehiculoObt">
+  <thead>
+    <tr>
+      <th scope="col">Placa</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Fecha Ingreso</th>
+      <th scope="col">Cilindraje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">{{ vehiculoObt.placa }}</th>
+      <td>{{ vehiculoObt.tipo }}</td>
+      <td>{{ vehiculoObt.fechaIngreso }}</td>
+      <td>{{ vehiculoObt.cilindraje }}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
