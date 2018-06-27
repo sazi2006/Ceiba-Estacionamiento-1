@@ -89,7 +89,7 @@ public class VigilanteController {
     }
     
     @RequestMapping(path = "/registrar-salida/vehiculo/{placa}/{fechaSalida}", method = RequestMethod.DELETE)
-    public FormatoRespuesta registrarSalidaCarro(@PathVariable("placa") String placa, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("fechaSalida") Date fechaSalida) {
+    public FormatoRespuesta registrarSalidaCarro(@PathVariable("placa") String placa, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @PathVariable("fechaSalida") Date fechaSalida) {
     	
     	int valorCobro;
     	try {

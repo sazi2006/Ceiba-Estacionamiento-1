@@ -17,11 +17,5 @@ export class VehiculosComponent implements OnInit {
   ngOnInit() {
   }
   
-  registrarSalida(vehiculo: Vehiculo): void {
-      this.vehiculosService.registrarSalida(vehiculo)
-          .subscribe( data => {
-              this.vehiculo = vehiculo;
-          })
-  };
 
 }

@@ -13,15 +13,22 @@ import { VehiculosService } from '../vehiculos/vehiculos.service';
 export class SalidaComponent {
 
   vehiculo: Vehiculo = new Vehiculo();
-    
+  errorMessage: String;
+  successMessage: String;
+        
   constructor(private router: Router, private vehiculosService: VehiculosService) { }
   
   registrarSalida(): void {
-      this.vehiculosService.registrarIngreso(this.vehiculo)
+      this.successMessage = null;
+      this.errorMessage = null;
+      this.vehiculosService.registrarSalida(this.vehiculo.placa)
           .subscribe( data => {
-              alert("Se registro el ingreso");
+              if(data['estado'] != undefined && data['estado'] == true) {
+                  this.successMessage = data['mensaje'];
+              }else if(data['estado'] != undefined && data['estado'] == false){
+                  this.errorMessage = data['mensaje'];
+              }
           })
   }
-  
 
 }

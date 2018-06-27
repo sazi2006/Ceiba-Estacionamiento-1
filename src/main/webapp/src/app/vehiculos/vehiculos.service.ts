@@ -14,14 +14,16 @@ export class VehiculosService {
   constructor(private http:HttpClient) {}
 
   //private userUrl = 'http://localhost:8080/user-portal/user';
-    private userUrl = '/registrar';
+  private retirarVehiculoURL = '/registrar-salida/vehiculo';
 
   public obtenerVehiculo() {
-    return this.http.get<Vehiculo>(this.userUrl);
+    return this.http.get<Vehiculo>(this.retirarVehiculoURL);
   }
 
-  public registrarSalida(vehiculo) {
-    return this.http.delete(this.userUrl + "/"+ vehiculo.placa);
+  public registrarSalida(placa) {
+    let fechaSalida = new Date().toISOString();
+    alert(this.retirarVehiculoURL + "/"+ placa + "/" + fechaSalida);
+    return this.http.delete(this.retirarVehiculoURL + "/"+ placa + "/" + fechaSalida);
   }
 
   public registrarIngreso(vehiculo) {
