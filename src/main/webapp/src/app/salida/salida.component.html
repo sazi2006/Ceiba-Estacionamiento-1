@@ -2,12 +2,11 @@
 	<h4>Registrar Salida</h4>
 	<form>
 		<div class="form-row">
-		  <div class="form-group col-lg-6 col-md-6 col-sm-6">
+		  <div class="form-group col-lg-12 col-md-12 col-sm-12 col-12">
 		    <label for="placa">Placa</label>
 		    <input class="form-control" id="placa" placeholder="Ej: IJX14E" [(ngModel)]="vehiculo.placa" name="placa">
 		  </div>
-		  <div class="col-lg-3 col-md-3 col-sm-3"></div>
-		  <button type="submit" class="btn btn-primary col-lg-3 col-md-3 col-sm-3" (click)="registrarSalida()">Enviar</button>
+		  <button type="submit" class="btn btn-primary col-sm-12 col-12" (click)="registrarSalida()">Enviar</button>
 		  
 		  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show col-lg-12 col-md-12 col-sm-12" role="alert">
 			  {{successMessage}}

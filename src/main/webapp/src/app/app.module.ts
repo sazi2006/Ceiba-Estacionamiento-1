@@ -10,6 +10,8 @@ import { IngresoComponent } from './ingreso/ingreso.component';
 import { SalidaComponent } from './salida/salida.component';
 import { AppRoutingModule } from './app.routing';
 import { VehiculosService } from './vehiculos/vehiculos.service';
+import { TrmService } from './trm/trm.service'
+import { TrmComponent } from './trm/trm.component';
 
 
 
@@ -19,7 +21,8 @@ import { VehiculosService } from './vehiculos/vehiculos.service';
     VehiculosComponent,
     NavbarComponent,
     IngresoComponent,
-    SalidaComponent
+    SalidaComponent,
+    TrmComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,10 @@ import { VehiculosService } from './vehiculos/vehiculos.service';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [VehiculosService],
+  providers: [
+    VehiculosService,
+    TrmService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

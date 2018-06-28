@@ -1,11 +1,16 @@
 <div class="container">
 <div class="row">
-	<h4 class="col-lg-6 col-md-6 col-sm-12">Buscar vehiculo</h4>
+	<h4 class="col-lg-6 col-md-12 col-sm-12 col-12">Buscar vehiculo</h4>
 	
-	<form class="form-inline col-lg-6 col-md-6 col-sm-12">
-	      <input class="form-control mr-sm-2" type="search" placeholder="Buscar, Ej: IJX14E" aria-label="Search" [(ngModel)]="placa" name="placa">
-	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="obtenerVehiculo()">Buscar</button>
+	<form class="form-inline col-lg-6 col-md-12 col-sm-12 col-12">
+		  <div class="row">
+			  <input class="form-control col-lg-7 col-md-7 col-sm-7 col-7" type="search" placeholder="Buscar, Ej: IJX14E" aria-label="Search" [(ngModel)]="placa" name="placa">
+		      <div class="col-lg-1 col-md-1 col-sm-1 col-1"></div>
+		      <button class="btn btn-outline-success col-lg-3 col-md-3 col-sm-3 col-3" type="submit" (click)="obtenerVehiculo()">Buscar</button>
+		  </div>
+	      
 	</form>
+	<br>
 	<div *ngIf="errorObtMessage" class="alert alert-danger alert-dismissible fade show col-lg-12 col-md-12 col-sm-12" role="alert">
 		  {{ errorObtMessage }}
 		  <button type="button" class="close" data-dismiss="alert" aria-label="Close">

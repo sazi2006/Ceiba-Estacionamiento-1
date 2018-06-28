@@ -17,27 +17,27 @@ public class TasaRepresentativaMercado {
 	/**
 	 * Valid from and valid to TCRM date format
 	 */
-	private final static String DATE_RESPONSE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
+	private static final String DATE_RESPONSE_FORMAT = "EEE, d MMM yyyy HH:mm:ss Z";
 	
 	/**
 	 * TCRM query date format
 	 */
-	private final static String DATE_QUERY_FORMAT = "yyyy-MM-dd";
+	private static final String DATE_QUERY_FORMAT = "yyyy-MM-dd";
 	
 	/**
 	 * TCRM query value format
 	 */
-	private final static String VALUE_QUERY_FORMAT = "#0.00";
+	private static final String VALUE_QUERY_FORMAT = "#0.00";
 
 	/**
 	 * TCRM date to query
 	 */
-	private final static String DATE_TO_QUERY = "2014-08-13";
+	private static final String DATE_TO_QUERY = "2014-08-13";
 	
 	/**
 	 * Web Service end point
 	 */
-	private final static String WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
+	private static final String WEB_SERVICE_URL = "https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL";
 
 	private Long id;
 	private String fechaValidaDesde;
@@ -123,7 +123,7 @@ public class TasaRepresentativaMercado {
 		//
 		// Gets the TCRM value for the given date
 		DateFormat formatter = new SimpleDateFormat(DATE_QUERY_FORMAT);
-		Date date = (Date)formatter.parse(DATE_TO_QUERY); 
+		Date date = formatter.parse(DATE_TO_QUERY); 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		
