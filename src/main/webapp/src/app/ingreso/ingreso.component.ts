@@ -32,5 +32,10 @@ export class IngresoComponent {
           })
   }
   
+  selectchange(args){ 
+      console.log(args.target.value); 
+      console.log(args.target.options[args.target.selectedIndex].text); 
+  }
+  
 
 }
