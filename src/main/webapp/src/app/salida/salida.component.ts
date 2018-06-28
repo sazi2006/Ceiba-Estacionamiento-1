@@ -15,6 +15,7 @@ export class SalidaComponent {
   vehiculo: Vehiculo = new Vehiculo();
   errorMessage: String;
   successMessage: String;
+  montoPagar: String;
         
   constructor(private router: Router, private vehiculosService: VehiculosService) { }
   
@@ -25,6 +26,7 @@ export class SalidaComponent {
           .subscribe( data => {
               if(data['estado'] != undefined && data['estado'] == true) {
                   this.successMessage = data['mensaje'];
+                  this.montoPagar = data['contenido'];
               }else if(data['estado'] != undefined && data['estado'] == false){
                   this.errorMessage = data['mensaje'];
               }
