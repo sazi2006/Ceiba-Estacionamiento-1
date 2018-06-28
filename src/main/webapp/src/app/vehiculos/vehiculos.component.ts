@@ -23,6 +23,7 @@ export class VehiculosComponent implements OnInit {
     };
     
     obtenerVehiculo(): void {
+      this.errorObtMessage = null;
       this.vehiculosService.obtenerVehiculo(this.placa)
         .subscribe( data => {
             console.log(data);

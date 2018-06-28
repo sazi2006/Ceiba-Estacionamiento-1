@@ -21,6 +21,7 @@ export class IngresoComponent {
   registrarIngreso(): void {
       this.successMessage = null;
       this.errorMessage = null;
+      
       this.vehiculosService.registrarIngreso(this.vehiculo)
           .subscribe( data => {
               //alert("Se registro el ingreso");
@@ -33,8 +34,7 @@ export class IngresoComponent {
   }
   
   selectchange(args){ 
-      console.log(args.target.value); 
-      console.log(args.target.options[args.target.selectedIndex].text); 
+      console.log(args.target.options[args.target.selectedIndex].text);
   }
   
 
