@@ -26,9 +26,10 @@ import co.com.ceiba.persistencia.repositorio.RepositorioMoto;
 public class ServicioVigilanteImpl implements ServicioVigilante {
 	
 	public static final String NO_HAY_CUPO = "No puede ingresar, el parqueadero se encuentra lleno";
-	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no está en un dia hábil";
+	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no esta en un dia hábil";
 	public static final String EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo solicitado no se encuentra en el parqueadero";
-	public static final String PLACA_EN_USO = "El vehiculo ya se encuentra en el parqueadero";
+	public static final String PLACA_EN_USO = "La placa del vehiculo no coincide con el tipo ingresado previamente";
+	public static final String EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo ya se encuentra en el parqueadero";
 	
 	public static final int CUPO_MAX_MOTOS = 10;
 	public static final int CUPO_MAX_CARROS = 20;
@@ -47,10 +48,21 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 		EntidadMoto moto = null;
 		
 		if(vehiculo instanceof Moto) {
+			moto = repositorioMoto.findByPlaca(vehiculo.getPlaca());
+			if(moto != null && moto.estaEnParqueadero()) {
+				throw new IngresoVehiculoExcepcion(EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			}
+			
 			Moto vehiculoEsp = (Moto) vehiculo;
+			
 			moto = MotoBuilder.convertirAEntidad(vehiculoEsp);
 			moto.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}else if(vehiculo instanceof Carro) {
+			carro = repositorioCarro.findByPlaca(vehiculo.getPlaca());
+			if(carro != null && carro.estaEnParqueadero()) {
+				throw new IngresoVehiculoExcepcion(EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			}
+			
 			Carro vehiculoEsp = (Carro) vehiculo;
 			carro = CarroBuilder.convertirAEntidad(vehiculoEsp);
 			carro.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
@@ -70,7 +82,6 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 				repositorioMoto.save(moto);
 			}
 		} catch (DataAccessException dae) {
-	        System.err.println(dae.getMessage());
 			throw new IngresoVehiculoExcepcion(PLACA_EN_USO);
 		}
 		

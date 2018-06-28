@@ -6,8 +6,8 @@
 		    <label for="tipo">Tipo</label>
 		    <select class="form-control" id="tipo" [(ngModel)]="vehiculo.tipo" name="tipo" (change)="selectchange($event)" required>
 		      <option selected="selected" disabled>- Seleccione -</option>
-		      <option [ngValue]="Moto" [value]="Moto">Moto</option>
-		      <option [ngValue]="Carro" [value]="Carro">Carro</option>
+		      <option [ngValue]="Moto" value="Moto">Moto</option>
+		      <option [ngValue]="Carro" value="Carro">Carro</option>
 		    </select>
 		  </div>
 		  <div class="form-group col-lg-6 col-md-6 col-sm-6 col-6">
@@ -17,7 +17,7 @@
 		  
 		  <div class="form-group col-lg-3 col-md-3 col-sm-3 col-4">
 		    <label for="cilindraje">Cilindraje</label>
-		    <input class="form-control" id="cilindraje" placeholder="Ej: 180" [(ngModel)]="vehiculo.cilindrada" name="cilindrada" required>
+		    <input type="number" class="form-control" id="cilindraje" placeholder="Ej: 180" [(ngModel)]="vehiculo.cilindrada" name="cilindrada" required>
 		  </div>
 		  
 		  <div class="form-group col-lg-9 col-md-9 col-sm-9 col-8">

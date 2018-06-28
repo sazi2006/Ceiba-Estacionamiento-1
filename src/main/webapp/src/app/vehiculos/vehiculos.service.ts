@@ -29,6 +29,9 @@ export class VehiculosService {
   public registrarIngreso(vehiculo) {
     let veh = {};
     let url = "";
+    
+    console.log(vehiculo);
+    
     if(vehiculo.tipo == "Moto") {
         veh = {
                 "placa": vehiculo.placa,
