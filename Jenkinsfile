@@ -60,7 +60,7 @@ pipeline {
 		stage('Functional Tests') {
 			steps {
 				echo "------------>Functional Tests<------------"
-				sh 'gradle --b ./build.gradle test --tests co.com.ceiba.dominio.funcional.* -x installAngular -x buildAngular -x compileJava'
+				//sh 'gradle --b ./build.gradle test --tests co.com.ceiba.dominio.funcional.* -x installAngular -x buildAngular -x compileJava'
 			}
 		}
 		
