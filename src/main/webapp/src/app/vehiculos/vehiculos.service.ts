@@ -35,18 +35,18 @@ export class VehiculosService {
     if(vehiculo.tipo == "Moto") {
         veh = {
                 "placa": vehiculo.placa,
-                "fechaIngreso": vehiculo.fechaIngreso,
+                "fechaIngreso": new Date().toISOString(),
                 "cilindrada": vehiculo.cilindrada
         };
         url = "/registrar-ingreso/moto";
     }else if(vehiculo.tipo == "Carro"){
         veh = {
                 "placa": vehiculo.placa,
-                "fechaIngreso": vehiculo.fechaIngreso
+                "fechaIngreso": new Date().toISOString()
         };
         url = "/registrar-ingreso/carro";
     }
-      
+    console.log(veh);
       
     return this.http.post(url, veh);
   }

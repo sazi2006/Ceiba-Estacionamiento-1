@@ -34,7 +34,6 @@ pipeline {
 		stage('Compile') {
 			steps {
 				echo "------------>Compile<------------"
-				//Construir sin tarea test que se ejecutó previamente
 				sh 'gradle --b ./build.gradle compileJava'
 
 			}
@@ -44,11 +43,26 @@ pipeline {
 		stage('Unit Tests') {
 			steps {
 				echo "------------>Unit Tests<------------"
-				sh 'gradle --b ./build.gradle test -x compileJava'
+				sh 'gradle --b ./gradle test --tests co.com.ceiba.dominio.unitaria.* -x installAngular -x buildAngular -x compileJava'
 
 			}
 		
 		}
+		
+		stage('Integration Tests') {
+			steps {
+				echo "------------>Integration Tests<------------"
+				sh 'gradle --b ./gradle test --tests co.com.ceiba.dominio.integracion.* -x installAngular -x buildAngular -x compileJava'
+
+			}
+		}
+		
+		stage('Functional Tests') {
+			steps {
+				echo "------------>Functional Tests<------------"
+			}
+		}
+		
 		
 		stage('Coverage Report') {
 			steps {
@@ -58,12 +72,6 @@ pipeline {
 			}
 		}
 		
-		stage('Integration Tests') {
-			steps {
-				echo "INTEGRATION TESTS"
-			
-			}
-		}
 		
 		stage('Static Code Analysis') {
 			steps {

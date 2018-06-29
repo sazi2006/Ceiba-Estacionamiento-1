@@ -6,6 +6,8 @@ import { SalidaComponent } from './salida/salida.component';
 
 const routes: Routes = [
     { path: '', redirectTo: '/registrar_ingreso', pathMatch: 'full' },
+    { path: 'ingreso_vehiculo', redirectTo: '/registrar_ingreso', pathMatch: 'full' },
+    { path: 'salida_vehiculo', redirectTo: '/registrar_salida',},
     { path: 'registrar_ingreso', component: IngresoComponent },
     { path: 'registrar_salida', component: SalidaComponent }
 ];
