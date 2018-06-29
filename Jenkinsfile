@@ -67,7 +67,7 @@ pipeline {
 		stage('Coverage Report') {
 			steps {
 				echo "GENERATE COVERAGE REPORT"
-				sh 'gradle --b ./build.gradle jacocoTestReport'
+				sh 'gradle --b ./build.gradle jacocoTestReport -x installAngular -x buildAngular'
 			
 			}
 		}
