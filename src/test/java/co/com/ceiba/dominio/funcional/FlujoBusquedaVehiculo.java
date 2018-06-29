@@ -38,7 +38,8 @@ public class FlujoBusquedaVehiculo {
 	
 	@BeforeClass
 	public static void URL() {
-		WebDriverManager.chromedriver().setup();
+		System.setProperty("webdriver.chrome.driver", "libs\\chromedriver-linux\\chromedriver");
+		//WebDriverManager.chromedriver().setup();
 		
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless");
