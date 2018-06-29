@@ -27,6 +27,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class FlujoIngresoVehiculosTest {
 	
 	private static final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
+	private static final String EL_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo ya se encuentra en el parqueadero";
+	private static final String URL = "http://localhost:8080/";
 	
 	private static WebDriver driver = null;
 	
@@ -51,7 +53,7 @@ public class FlujoIngresoVehiculosTest {
 		tipoVehiculo.selectByValue("Moto");
 		
 		WebElement placa = driver.findElement(By.id("placa"));
-		placa.sendKeys("IJX14E");
+		placa.sendKeys("IJX14V");
 		
 		WebElement cilindrada = driver.findElement(By.id("cilindraje"));
 		cilindrada.sendKeys("180");
@@ -78,16 +80,73 @@ public class FlujoIngresoVehiculosTest {
 		tipoVehiculo.selectByValue("Carro");
 		
 		WebElement placa = driver.findElement(By.id("placa"));
-		placa.sendKeys("IHV102");
+		placa.sendKeys("IHV101");
 		
 		
 		WebElement btnEnviar = driver.findElement(By.id("enviarIngresoVehiculo"));
 		btnEnviar.click();
 		
-		WebElement mensajeExito = (new WebDriverWait(driver, 15))
+		WebElement mensajeExito = (new WebDriverWait(driver, 5))
 				  .until(ExpectedConditions.presenceOfElementLocated(By.id("msgExito")));
 		
 		assertEquals(EL_VEHICULO_HA_SIDO_REGISTRADO, mensajeExito.getText());
+		
+	}
+	
+	@Test
+	@Transactional
+	public void comprobarRegistroFallidoIngresoMoto() {
+		driver.get(URL);
+		
+		Select tipoVehiculo = new Select(driver.findElement(By.id("tipo")));
+		tipoVehiculo.selectByValue("Moto");
+		
+		WebElement placa = driver.findElement(By.id("placa"));
+		placa.sendKeys("IJX14C");
+		
+		WebElement cilindrada = driver.findElement(By.id("cilindraje"));
+		cilindrada.sendKeys("180");
+		
+		WebElement btnEnviar = driver.findElement(By.id("enviarIngresoVehiculo"));
+		btnEnviar.click();
+		
+		WebDriverWait mensajeExitoWait = new WebDriverWait(driver, 5);
+		mensajeExitoWait.until(ExpectedConditions.presenceOfElementLocated(By.id("msgExito")));
+		
+		btnEnviar.click();
+		
+		WebElement mensajeError = (new WebDriverWait(driver, 5))
+				  .until(ExpectedConditions.presenceOfElementLocated(By.id("msgError")));
+		
+		assertEquals(EL_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO, mensajeError.getText());
+		
+	}
+	
+
+	@Test
+	@Transactional
+	public void comprobarRegistroFallidoIngresoCarro() {
+		driver.get(URL);
+		
+		Select tipoVehiculo = new Select(driver.findElement(By.id("tipo")));
+		tipoVehiculo.selectByValue("Carro");
+		
+		WebElement placa = driver.findElement(By.id("placa"));
+		placa.sendKeys("IHV109");
+		
+		WebElement btnEnviar = driver.findElement(By.id("enviarIngresoVehiculo"));
+		
+		btnEnviar.click();
+		
+		WebDriverWait mensajeExitoWait = new WebDriverWait(driver, 5);
+		mensajeExitoWait.until(ExpectedConditions.presenceOfElementLocated(By.id("msgExito")));
+		
+		btnEnviar.click();
+		
+		WebElement mensajeError = (new WebDriverWait(driver, 5))
+				  .until(ExpectedConditions.presenceOfElementLocated(By.id("msgError")));
+		
+		assertEquals(EL_VEHICULO_SE_ENCUENTRA_EN_EL_PARQUEADERO, mensajeError.getText());
 		
 	}
 	

@@ -27,6 +27,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class FlujoSalidaVehiculosTest {
 	
 	private static final String EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO = "El vehiculo ha sido retirado del parqueadero exitosamente";
+	private static final String EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo solicitado no se encuentra en el parqueadero";
+	private static final String URL = "http://localhost:8080/";
 	
 	private static WebDriver driver = null;
 	
@@ -45,7 +47,7 @@ public class FlujoSalidaVehiculosTest {
 	@Test
 	@Transactional
 	public void comprobarRegistroSalidaMoto() {
-		driver.get("http://localhost:8080/");
+		driver.get(URL);
 		
 		Select tipoVehiculo = new Select(driver.findElement(By.id("tipo")));
 		tipoVehiculo.selectByValue("Moto");
@@ -86,7 +88,7 @@ public class FlujoSalidaVehiculosTest {
 	@Test
 	@Transactional
 	public void comprobarRegistroSalidaCarro() {
-		driver.get("http://localhost:8080/");
+		driver.get(URL);
 		
 		Select tipoVehiculo = new Select(driver.findElement(By.id("tipo")));
 		tipoVehiculo.selectByValue("Carro");
@@ -118,6 +120,48 @@ public class FlujoSalidaVehiculosTest {
 		assertEquals(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, mensajeExito.getText());
 		assertTrue(Integer.parseInt(valorCobro.getText()) >= 0);
 		
+		
+	}
+	
+	@Test
+	@Transactional
+	public void comprobarRegistroFallidoSalidaMoto() {
+		driver.get(URL);
+		
+		WebElement btnRegistrarSalida = driver.findElement(By.id("dir_salida"));
+		btnRegistrarSalida.click();
+		
+		WebElement placa = driver.findElement(By.id("placa"));
+		placa.sendKeys("IJX14J");
+		
+		WebElement btnEnviar = driver.findElement(By.id("enviarSalidaVehiculo"));
+		btnEnviar.click();
+		
+		WebElement mensajeError = (new WebDriverWait(driver, 5))
+				  .until(ExpectedConditions.presenceOfElementLocated(By.id("msgErrorSalida")));
+		
+		assertEquals(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, mensajeError.getText());
+		
+	}
+	
+	@Test
+	@Transactional
+	public void comprobarRegistroFallidoSalidaCarro() {
+		driver.get(URL);
+		
+		WebElement btnRegistrarSalida = driver.findElement(By.id("dir_salida"));
+		btnRegistrarSalida.click();
+		
+		WebElement placa = driver.findElement(By.id("placa"));
+		placa.sendKeys("IHV105");
+		
+		WebElement btnEnviar = driver.findElement(By.id("enviarSalidaVehiculo"));
+		btnEnviar.click();
+		
+		WebElement mensajeError = (new WebDriverWait(driver, 5))
+				  .until(ExpectedConditions.presenceOfElementLocated(By.id("msgErrorSalida")));
+		
+		assertEquals(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO, mensajeError.getText());
 		
 	}
 }
