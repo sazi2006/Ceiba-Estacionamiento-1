@@ -39,7 +39,9 @@ public class FlujoSalidaVehiculosTest {
 	public static void inicializarDriver() {
 		//System.setProperty("webdriver.gecko.driver", "libs\\geckodriver-v0.21.0-win64\\geckodriver.exe");
 		//System.setProperty("webdriver.chrome.driver", "libs\\chromedriver_win32\\chromedriver.exe");
-		WebDriverManager.chromedriver().setup();
+		
+		System.setProperty("webdriver.chrome.driver", "libs\\chromedriver-linux\\chromedriver");
+		//WebDriverManager.chromedriver().setup();
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless");
 		options.addArguments("disable-gpu");
