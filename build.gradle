@@ -29,6 +29,8 @@ targetCompatibility = 1.8
 dependencies {
 	compile files("libs/SuperfinancieraWebServiceTRMClientJavaV2.jar")
 	compile("org.seleniumhq.selenium:selenium-java:3.12.0")
+	
+	compile("io.github.bonigarcia:webdrivermanager:2.2.3")
 	compile("org.seleniumhq.selenium:selenium-support:3.12.0")
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-parent:1.5.10.RELEASE")
