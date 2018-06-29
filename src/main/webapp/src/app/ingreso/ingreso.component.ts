@@ -22,8 +22,10 @@ export class IngresoComponent {
       this.successMessage = null;
       this.errorMessage = null;
       
+      console.log(this.vehiculo);
       this.vehiculosService.registrarIngreso(this.vehiculo)
           .subscribe( data => {
+              
               //alert("Se registro el ingreso");
               if(data['estado'] != undefined && data['estado'] == true) {
                   this.successMessage = data['mensaje'];

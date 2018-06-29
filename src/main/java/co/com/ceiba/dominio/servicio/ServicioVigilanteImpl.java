@@ -26,7 +26,7 @@ import co.com.ceiba.persistencia.repositorio.RepositorioMoto;
 public class ServicioVigilanteImpl implements ServicioVigilante {
 	
 	public static final String NO_HAY_CUPO = "No puede ingresar, el parqueadero se encuentra lleno";
-	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no esta en un dia hábil";
+	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no esta en un dia habil";
 	public static final String EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo solicitado no se encuentra en el parqueadero";
 	public static final String PLACA_EN_USO = "La placa del vehiculo no coincide con el tipo ingresado previamente";
 	public static final String EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo ya se encuentra en el parqueadero";
