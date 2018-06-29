@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +18,8 @@ import co.com.ceiba.dominio.trm.TasaRepresentativaMercado;
 @SpringBootTest
 @ActiveProfiles("test")
 public class TasaRepresentativaMercadoTest {
+	
+	private static final String DATE_TO_QUERY = "2014-08-13";
 	
 	@Test
 	public void obtenerTrm() {
@@ -46,7 +47,7 @@ public class TasaRepresentativaMercadoTest {
 		try {
 			
 			//act
-			trm.construirTRMPorFecha(new Date());
+			trm.construirTRMPorFecha(DATE_TO_QUERY);
 		}catch(ObtenerTRMExcepcion | ParseException e) {
 			fail();
 		}

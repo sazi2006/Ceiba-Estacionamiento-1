@@ -31,8 +31,8 @@ public class TasaRepresentativaMercado {
 
 	/**
 	 * TCRM date to query
+	 * private static final String DATE_TO_QUERY = "2014-08-13";
 	 */
-	private static final String DATE_TO_QUERY = "2014-08-13";
 	
 	/**
 	 * Web Service end point
@@ -119,11 +119,11 @@ public class TasaRepresentativaMercado {
 		
 	}
 	
-	public TasaRepresentativaMercado construirTRMPorFecha(Date fecha) throws ParseException {
+	public TasaRepresentativaMercado construirTRMPorFecha(String fecha) throws ParseException {
 		//
 		// Gets the TCRM value for the given date
 		DateFormat formatter = new SimpleDateFormat(DATE_QUERY_FORMAT);
-		Date date = formatter.parse(DATE_TO_QUERY); 
+		Date date = formatter.parse(fecha); 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		
