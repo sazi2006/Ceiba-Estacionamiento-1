@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,8 @@ public class VigilanteController {
 	
 	private static final String EL_VEHICULO_HA_SIDO_REGISTRADO = "El vehiculo ha sido registrado correctamente";
 	private static final String EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO = "El vehiculo ha sido retirado del parqueadero exitosamente";
+	public static final String PLACA_EN_USO = "La placa del vehiculo no coincide con el tipo ingresado previamente";
+	
 	
 	private static final boolean ESTADO_OK = true;
 	private static final boolean ESTADO_FALLO = false;
@@ -54,7 +57,7 @@ public class VigilanteController {
 			}
 			
 		}catch (ObtenerVehiculoExcepcion e) {
-			LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+			LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
 			return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
 		}
 			
@@ -67,9 +70,10 @@ public class VigilanteController {
     		servicioVigilante.ingresarVehiculo(carro);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
-    	}catch (IngresoVehiculoExcepcion e) {
-    		LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
-    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+    	}catch (IngresoVehiculoExcepcion | DataAccessException e) {
+    		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
+    		return e instanceof DataAccessException ? new FormatoRespuesta(PLACA_EN_USO, ESTADO_FALLO)
+    				: new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
     }
@@ -81,9 +85,10 @@ public class VigilanteController {
     		servicioVigilante.ingresarVehiculo(moto);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
-    	}catch (IngresoVehiculoExcepcion e) {
-    		LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
-    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+    	}catch (IngresoVehiculoExcepcion | DataAccessException e) {
+    		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
+    		return e instanceof DataAccessException ? new FormatoRespuesta(PLACA_EN_USO, ESTADO_FALLO)
+    				: new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
     }
@@ -99,7 +104,7 @@ public class VigilanteController {
     		return new FormatoRespuesta(EL_VEHICULO_SE_HA_RETIRADO_DEL_PARQUEADERO, ESTADO_OK, valorCobro);
     		
     	}catch (SalidaVehiculoExcepcion e) {
-    		LOGGER.info(ERROR_AL_INGRESAR_EL_VEHICULO, e.getMessage());
+    		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
     		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
     	}
     	
