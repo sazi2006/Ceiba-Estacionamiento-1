@@ -40,8 +40,10 @@ public class VigilanteTest {
 	
 	private static final int VALOR_UN_DIA_TRES_HORAS_CARRO = 11000;
 	private static final int VALOR_DIEZ_HORAS_650_CC_MOTO = 6000;
+	private static final int VALOR_DIEZ_HORAS_MOTO = 4000;
 	
 	private static final short CILINDRADA_650_CC = 650;
+	private static final short CILINDRADA_125_CC = 125;
 	
 	@Test
 	public void hayCupoMotoTest() {
@@ -264,5 +266,32 @@ public class VigilanteTest {
 		assertEquals(VALOR_DIEZ_HORAS_650_CC_MOTO, valorCobro);
 	}
 	
+	
+	@Test
+	public void generarCobroMotoDiezHorasTest() {
+		//arrange
+		
+		// Tue Jun 26 2018 06:35:55 GMT-0500
+		Date fechaIngreso = new Date(1530012955000L);
+		
+		
+		// Tue Jun 26 2018 16:35:55 GMT-0500
+		Date fechaSalida = new Date(1530048955000L);
+		
+		
+		MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder()
+				.conFechaIngreso(fechaIngreso)
+				.conFechaSalida(fechaSalida)
+				.conCilindrada(CILINDRADA_125_CC);
+		
+		Moto moto = motoTestDataBuilder.build();
+		
+		
+		//act
+		int valorCobro = Cobro.generarCobro(moto);
+		
+		//assert
+		assertEquals(VALOR_DIEZ_HORAS_MOTO, valorCobro);
+	}
 	
 }

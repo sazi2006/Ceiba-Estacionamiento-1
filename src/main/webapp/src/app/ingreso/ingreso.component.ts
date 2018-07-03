@@ -36,6 +36,7 @@ export class IngresoComponent {
           return;
       }else if(!this.isNumber(this.vehiculo.cilindrada)) {
           this.errorMessage = MENSAJE_ERROR_NO_NUMERICO;
+          return;
       }
       this.vehiculosService.registrarIngreso(this.vehiculo)
           .subscribe( data => {
