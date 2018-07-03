@@ -30,8 +30,6 @@ export class VehiculosService {
     let veh = {};
     let url = "";
     
-    console.log(vehiculo);
-    
     if(vehiculo.tipo == "Moto") {
         veh = {
                 "placa": vehiculo.placa,
@@ -46,7 +44,6 @@ export class VehiculosService {
         };
         url = "/registrar-ingreso/carro";
     }
-    console.log(veh);
       
     return this.http.post(url, veh);
   }
