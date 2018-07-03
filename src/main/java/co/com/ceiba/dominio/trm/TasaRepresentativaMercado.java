@@ -8,11 +8,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import co.com.ceiba.dominio.controlador.VigilanteController;
 import co.com.ceiba.dominio.excepcion.ObtenerTRMExcepcion;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TCRMServicesInterfaceProxy;
 import co.com.sc.nexura.superfinanciera.action.generic.services.trm.action.TcrmResponse;
 
 public class TasaRepresentativaMercado {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(VigilanteController.class);
 	
 	/**
 	 * Valid from and valid to TCRM date format
@@ -107,6 +113,7 @@ public class TasaRepresentativaMercado {
 		try {
 			tcrmResponse = proxy.queryTCRM(null);
 		} catch (RemoteException e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new ObtenerTRMExcepcion(e.getMessage());
 		}
 		
@@ -130,6 +137,7 @@ public class TasaRepresentativaMercado {
 		try {
 			tcrmResponse = proxy.queryTCRM(calendar);
 		} catch (RemoteException e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new ObtenerTRMExcepcion(e.getMessage());
 		}
 		

@@ -70,10 +70,12 @@ public class VigilanteController {
     		servicioVigilante.ingresarVehiculo(carro);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
-    	}catch (IngresoVehiculoExcepcion | DataAccessException e) {
+    	}catch (IngresoVehiculoExcepcion e) {
     		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
-    		return e instanceof DataAccessException ? new FormatoRespuesta(PLACA_EN_USO, ESTADO_FALLO)
-    				: new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+    	}catch (DataAccessException e) {
+    		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
+    		return new FormatoRespuesta(PLACA_EN_USO, ESTADO_FALLO);
     	}
     	
     }
@@ -85,10 +87,12 @@ public class VigilanteController {
     		servicioVigilante.ingresarVehiculo(moto);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
-    	}catch (IngresoVehiculoExcepcion | DataAccessException e) {
+    	}catch (IngresoVehiculoExcepcion e) {
     		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
-    		return e instanceof DataAccessException ? new FormatoRespuesta(PLACA_EN_USO, ESTADO_FALLO)
-    				: new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+    		return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
+    	}catch (DataAccessException e) {
+    		LOGGER.error(ERROR_AL_INGRESAR_EL_VEHICULO, e);
+    		return new FormatoRespuesta(PLACA_EN_USO, ESTADO_FALLO);
     	}
     	
     }
