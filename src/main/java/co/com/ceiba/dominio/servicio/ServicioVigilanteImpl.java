@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import co.com.ceiba.dominio.Carro;
@@ -28,7 +27,6 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	public static final String NO_HAY_CUPO = "No puede ingresar, el parqueadero se encuentra lleno";
 	public static final String NO_ESTA_EN_UN_DIA_HABIL = "No puede ingresar porque no esta en un dia habil";
 	public static final String EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo solicitado no se encuentra en el parqueadero";
-	public static final String PLACA_EN_USO = "La placa del vehiculo no coincide con el tipo ingresado previamente";
 	public static final String EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO = "El vehiculo ya se encuentra en el parqueadero";
 	
 	public static final int CUPO_MAX_MOTOS = 10;
@@ -42,7 +40,7 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	@Autowired
 	private RepositorioMoto repositorioMoto;
 	
-	public void ingresarVehiculo(Vehiculo vehiculo) {
+	public void ingresarVehiculo(Vehiculo vehiculo){
 		
 		EntidadCarro carro = null;
 		EntidadMoto moto = null;
@@ -74,17 +72,13 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 			throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
 		}
 		
-		try {
-			if(carro != null) {
-				
-				repositorioCarro.save(carro);
-			}else if(moto != null){
-				repositorioMoto.save(moto);
-			}
-		} catch (DataAccessException dae) {
-			throw new IngresoVehiculoExcepcion(PLACA_EN_USO);
+		if(carro != null) {
+			
+			repositorioCarro.save(carro);
+		}else {
+			repositorioMoto.save(moto);
 		}
-		
+	
 	}
 	
 	public boolean verificarCupo(Vehiculo vehiculo) {

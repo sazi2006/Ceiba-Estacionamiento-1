@@ -18,6 +18,7 @@ public class TRMController {
 	private static final boolean ESTADO_FALLO = false;
 	
 	private static final String OPERACION_EXITOSA = "Operacion exitosa";
+	private static final String OPERACION_FALLIDA = "Operacion fallida";
 	
 	
 	@RequestMapping("/obtener/trm")
@@ -27,7 +28,7 @@ public class TRMController {
 		try {
 			trm = new TasaRepresentativaMercado().construirTRM(); 
 		}catch(ObtenerTRMExcepcion e) {
-			LOGGER.info(e.getMessage());
+			LOGGER.error(OPERACION_FALLIDA, e);
 			return new FormatoRespuesta(e.getMessage(), ESTADO_FALLO);
 		}
 		
