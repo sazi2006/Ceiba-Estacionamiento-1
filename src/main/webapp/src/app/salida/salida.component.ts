@@ -22,6 +22,12 @@ export class SalidaComponent {
   registrarSalida(): void {
       this.successMessage = null;
       this.errorMessage = null;
+      
+      if(this.vehiculo.placa == undefined || this.vehiculo.placa == "") {
+          this.errorMessage = "Debe rellenar los campos solicitados";
+          return;
+      }
+      
       this.vehiculosService.registrarSalida(this.vehiculo.placa)
           .subscribe( data => {
               if(data['estado'] != undefined && data['estado'] == true) {
