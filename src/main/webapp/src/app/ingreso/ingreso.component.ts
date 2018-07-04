@@ -34,7 +34,7 @@ export class IngresoComponent {
       }else if(this.vehiculo.tipo == "Moto" && this.vehiculo.cilindrada == undefined) {
           this.errorMessage = MENSAJE_ERROR_CAMPO_VACIO;
           return;
-      }else if(!this.isNumber(this.vehiculo.cilindrada)) {
+      }else if(this.vehiculo.tipo == "Moto" && !this.isNumber(this.vehiculo.cilindrada)) {
           this.errorMessage = MENSAJE_ERROR_NO_NUMERICO;
           return;
       }
@@ -48,7 +48,7 @@ export class IngresoComponent {
               }
           })
   }
-  
+  IHV103
   isNumber(n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
   }
