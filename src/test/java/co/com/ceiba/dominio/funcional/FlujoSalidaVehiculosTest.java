@@ -22,8 +22,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-//import io.github.bonigarcia.wdm.WebDriverManager;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
@@ -38,7 +36,6 @@ public class FlujoSalidaVehiculosTest {
 	@BeforeClass
 	public static void inicializarDriver() {
 		//System.setProperty("webdriver.gecko.driver", "libs\\geckodriver-v0.21.0-win64\\geckodriver.exe");
-		//System.setProperty("webdriver.chrome.driver", "libs\\chromedriver_win32\\chromedriver.exe");
 		
 		System.setProperty("webdriver.chrome.driver", "libs\\chromedriver-linux\\chromedriver");
 		//WebDriverManager.chromedriver().setup();

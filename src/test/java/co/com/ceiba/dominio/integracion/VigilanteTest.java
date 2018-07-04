@@ -23,12 +23,9 @@ import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.ObtenerVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.dominio.servicio.ServicioVigilanteImpl;
-import co.com.ceiba.persistencia.builder.CarroBuilder;
-import co.com.ceiba.persistencia.builder.MotoBuilder;
-import co.com.ceiba.persistencia.entidad.EntidadCarro;
-import co.com.ceiba.persistencia.entidad.EntidadMoto;
-import co.com.ceiba.persistencia.repositorio.RepositorioCarro;
-import co.com.ceiba.persistencia.repositorio.RepositorioMoto;
+import co.com.ceiba.persistencia.builder.VehiculoBuilder;
+import co.com.ceiba.persistencia.entidad.EntidadVehiculo;
+import co.com.ceiba.persistencia.repositorio.RepositorioVehiculo;
 import testdatabuilder.CarroTestDataBuilder;
 import testdatabuilder.MotoTestDataBuilder;
 
@@ -46,10 +43,7 @@ public class VigilanteTest {
 	private ServicioVigilanteImpl servicioVigilanteImpl;
 	
 	@Autowired
-	private RepositorioMoto repositorioMoto;
-	
-	@Autowired
-	private RepositorioCarro repositorioCarro;
+	private RepositorioVehiculo repositorioVehiculo;
 	
 	@Test
 	@Transactional
@@ -61,15 +55,17 @@ public class VigilanteTest {
 		
 		Moto moto = motoTestDataBuilder.build();
 		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
+		
 		//act
 		try {
-			servicioVigilanteImpl.ingresarVehiculo(moto);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 		}catch (IngresoVehiculoExcepcion e) {
 			fail();
 		}
 		
 		//assert
-		assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
+		assertNotNull(repositorioVehiculo.findByPlaca(moto.getPlaca()));
 		
 	}
 	
@@ -84,15 +80,16 @@ public class VigilanteTest {
 				
 		for(int i = 0; i < ServicioVigilanteImpl.CUPO_MAX_MOTOS; i++) {
 			motoTestDataBuilder = motoTestDataBuilder.conPlaca(placa + i);
-			servicioVigilanteImpl.ingresarVehiculo(motoTestDataBuilder.build());
+			
+			servicioVigilanteImpl.ingresarVehiculo(VehiculoBuilder.convertirAEntidad(motoTestDataBuilder.build()));
 		}
 		
 		Moto moto = motoTestDataBuilder.conPlaca(PLACA_MOTO).build();
-		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
 		
 		try {
 			//act
-			servicioVigilanteImpl.ingresarVehiculo(moto);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			fail();
 		}catch (IngresoVehiculoExcepcion e) {
 			
@@ -110,6 +107,7 @@ public class VigilanteTest {
 		//Calendar fechaLunes = Calendar.getInstance();
 		//fechaLunes.set(2018, 5, 7);
 		
+		
 		Date fechaLunes = new Date(1529340521292L);
 		
 		
@@ -119,17 +117,18 @@ public class VigilanteTest {
 		
 		Moto moto = motoTestDataBuilder.build();
 		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
 		
 		try {
 			//act
-			servicioVigilanteImpl.ingresarVehiculo(moto);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			
 		}catch (IngresoVehiculoExcepcion e) {
 			//assert
 			fail();
 			
 		}
-		assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
+		assertNotNull(repositorioVehiculo.findByPlaca(moto.getPlaca()));
 		
 	}
 	
@@ -147,17 +146,18 @@ public class VigilanteTest {
 		
 		Moto moto = motoTestDataBuilder.build();
 		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
 		
 		try {
 			//act
-			servicioVigilanteImpl.ingresarVehiculo(moto);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			
 		}catch (IngresoVehiculoExcepcion e) {
 			//assert
 			fail();
 		}
 		
-		assertNotNull(repositorioMoto.findByPlaca(moto.getPlaca()));
+		assertNotNull(repositorioVehiculo.findByPlaca(moto.getPlaca()));
 		
 	}
 	
@@ -174,9 +174,11 @@ public class VigilanteTest {
 		
 		Moto moto = motoTestDataBuilder.build();
 		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
+		
 		//act
 		try {
-			servicioVigilanteImpl.ingresarVehiculo(moto);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			fail();
 		}catch (IngresoVehiculoExcepcion e) {
 			//assert
@@ -196,15 +198,17 @@ public class VigilanteTest {
 		
 		Carro carro = carroTestDataBuilder.build();
 		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
+		
 		//act
 		try {
-			servicioVigilanteImpl.ingresarVehiculo(carro);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 		}catch (IngresoVehiculoExcepcion e) {
 			fail();
 		}
 		
 		//assert
-		assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
+		assertNotNull(repositorioVehiculo.findByPlaca(carro.getPlaca()));
 		
 	}
 	
@@ -219,15 +223,15 @@ public class VigilanteTest {
 				
 		for(int i = 0; i < ServicioVigilanteImpl.CUPO_MAX_CARROS; i++) {
 			carroTestDataBuilder = carroTestDataBuilder.conPlaca(placa + i);
-			servicioVigilanteImpl.ingresarVehiculo(carroTestDataBuilder.build());
+			servicioVigilanteImpl.ingresarVehiculo(VehiculoBuilder.convertirAEntidad(carroTestDataBuilder.build()));
 		}
 		
 		Carro carro = carroTestDataBuilder.conPlaca(PLACA_CARRO).build();
 		
-		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
 		try {
 			//act
-			servicioVigilanteImpl.ingresarVehiculo(carro);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			fail();
 		}catch (IngresoVehiculoExcepcion e) {
 			
@@ -242,6 +246,7 @@ public class VigilanteTest {
 	public void ingresarCarroPlacaA_UnLunesTest() {
 		//arrange
 		
+		// Fecha lunes
 		Date fechaLunes = new Date(1529340521292L);
 		
 		
@@ -251,17 +256,17 @@ public class VigilanteTest {
 		
 		Carro carro = carroTestDataBuilder.build();
 		
-		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
 		try {
 			//act
-			servicioVigilanteImpl.ingresarVehiculo(carro);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			
 		}catch (IngresoVehiculoExcepcion e) {
 			//assert
 			fail();
 			
 		}
-		assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
+		assertNotNull(repositorioVehiculo.findByPlaca(carro.getPlaca()));
 		
 	}
 	
@@ -279,18 +284,18 @@ public class VigilanteTest {
 		
 		Carro carro = carroTestDataBuilder.build();
 		
-		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
 		
 		try {
 			//act
-			servicioVigilanteImpl.ingresarVehiculo(carro);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			
 		}catch (IngresoVehiculoExcepcion e) {
 			//assert
 			fail();
 		}
 		
-		assertNotNull(repositorioCarro.findByPlaca(carro.getPlaca()));
+		assertNotNull(repositorioVehiculo.findByPlaca(carro.getPlaca()));
 		
 	}
 	
@@ -307,10 +312,10 @@ public class VigilanteTest {
 		
 		Carro carro = carroTestDataBuilder.build();
 		
-		
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
 		//act
 		try {
-			servicioVigilanteImpl.ingresarVehiculo(carro);
+			servicioVigilanteImpl.ingresarVehiculo(entidadVehiculo);
 			fail();
 		}catch (IngresoVehiculoExcepcion e) {
 			//assert
@@ -329,10 +334,10 @@ public class VigilanteTest {
 		
 		Moto moto = motoTestDataBuilder.build();
 		
-		EntidadMoto entidadMoto = MotoBuilder.convertirAEntidad(moto);
-		entidadMoto.setEstaEnParqueadero(true);
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
+		entidadVehiculo.setEstaEnParqueadero(true);
 		
-		repositorioMoto.save(entidadMoto);
+		repositorioVehiculo.save(entidadVehiculo);
 		
 		//act
 		try {
@@ -342,7 +347,7 @@ public class VigilanteTest {
 		}
 		
 		//assert
-		assertFalse(repositorioMoto.findByPlaca(moto.getPlaca()).estaEnParqueadero());
+		assertFalse(repositorioVehiculo.findByPlaca(moto.getPlaca()).estaEnParqueadero());
 	}
 	
 	@Test
@@ -377,10 +382,10 @@ public class VigilanteTest {
 		
 		Carro carro = carroTestDataBuilder.build();
 		
-		EntidadCarro entidadCarro = CarroBuilder.convertirAEntidad(carro);
-		entidadCarro.setEstaEnParqueadero(true);
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
+		entidadVehiculo.setEstaEnParqueadero(true);
 		
-		repositorioCarro.save(entidadCarro);
+		repositorioVehiculo.save(entidadVehiculo);
 		
 		//act
 		try {
@@ -390,7 +395,7 @@ public class VigilanteTest {
 		}
 		
 		//assert
-		assertFalse(repositorioCarro.findByPlaca(carro.getPlaca()).estaEnParqueadero());
+		assertFalse(repositorioVehiculo.findByPlaca(carro.getPlaca()).estaEnParqueadero());
 	}
 	
 	@Test
@@ -426,9 +431,9 @@ public class VigilanteTest {
 		
 		Carro carro = carroTestDataBuilder.build();
 		
-		EntidadCarro entidadCarro = CarroBuilder.convertirAEntidad(carro);
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
 		
-		repositorioCarro.save(entidadCarro);
+		repositorioVehiculo.save(entidadVehiculo);
 		
 		Carro carroObtenido = null;
 		
@@ -474,9 +479,9 @@ public class VigilanteTest {
 		
 		Moto moto = motoTestDataBuilder.build();
 		
-		EntidadMoto entidadMoto = MotoBuilder.convertirAEntidad(moto);
+		EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
 		
-		repositorioMoto.save(entidadMoto);
+		repositorioVehiculo.save(entidadVehiculo);
 		
 		Moto motoObtenida = null;
 		

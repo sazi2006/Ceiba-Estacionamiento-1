@@ -48,7 +48,7 @@ export class IngresoComponent {
               }
           })
   }
-  IHV103
+  
   isNumber(n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
   }
