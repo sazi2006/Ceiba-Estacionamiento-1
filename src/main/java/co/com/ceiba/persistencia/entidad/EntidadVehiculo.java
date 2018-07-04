@@ -5,15 +5,16 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
 
 @Entity(name="Vehiculo")
-@Inheritance
-public abstract class EntidadVehiculo {
+public class EntidadVehiculo {
 	
 	@Id
 	@Column(nullable = false)
 	private String placa;
+	
+	@Column(nullable = false)
+	private String tipo;
 	
 	@Column(nullable = false)
 	private Date fechaIngreso;
@@ -21,6 +22,8 @@ public abstract class EntidadVehiculo {
 	private Date fechaSalida;
 	
 	private boolean estaEnParqueadero;
+	
+	private short cilindrada;
 	
 	public String getPlaca() {
 		return placa;
@@ -32,6 +35,14 @@ public abstract class EntidadVehiculo {
 	
 	public Date getFechaIngreso() {
 		return fechaIngreso;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 	public void setFechaIngreso(Date fechaIngreso) {
@@ -52,6 +63,14 @@ public abstract class EntidadVehiculo {
 
 	public void setFechaSalida(Date fechaSalida) {
 		this.fechaSalida = fechaSalida;
+	}
+
+	public short getCilindrada() {
+		return cilindrada;
+	}
+
+	public void setCilindrada(short cilindrada) {
+		this.cilindrada = cilindrada;
 	}
 	
 	

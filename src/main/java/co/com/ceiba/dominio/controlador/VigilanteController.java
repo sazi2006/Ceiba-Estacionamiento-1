@@ -24,6 +24,8 @@ import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
 import co.com.ceiba.dominio.respuesta.FormatoRespuesta;
 import co.com.ceiba.dominio.respuesta.FormatoRespuestaVehiculo;
 import co.com.ceiba.dominio.servicio.ServicioVigilante;
+import co.com.ceiba.persistencia.builder.VehiculoBuilder;
+import co.com.ceiba.persistencia.entidad.EntidadVehiculo;
 
 @RestController
 public class VigilanteController {
@@ -49,7 +51,6 @@ public class VigilanteController {
 		
 		try {
 			Vehiculo vehiculo = servicioVigilante.obtenerVehiculo(placa);
-			
 			if(vehiculo instanceof Carro) {
 				return new FormatoRespuestaVehiculo("OK", ESTADO_OK, (Carro) vehiculo, "Carro");
 			}else {
@@ -66,8 +67,12 @@ public class VigilanteController {
 
     @RequestMapping(path = "/registrar-ingreso/carro", method = RequestMethod.POST)
     public FormatoRespuesta registrarIngresoCarro(@RequestBody Carro carro) {
+    	
+    	EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(carro);
+    	
     	try {
-    		servicioVigilante.ingresarVehiculo(carro);
+    		
+    		servicioVigilante.ingresarVehiculo(entidadVehiculo);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, carro);
     		
     	}catch (IngresoVehiculoExcepcion e) {
@@ -83,8 +88,10 @@ public class VigilanteController {
     @RequestMapping(path = "/registrar-ingreso/moto", method = RequestMethod.POST)
     public FormatoRespuesta registrarIngresoMoto(@RequestBody Moto moto) {
     	
+    	EntidadVehiculo entidadVehiculo = VehiculoBuilder.convertirAEntidad(moto);
+    	
     	try {
-    		servicioVigilante.ingresarVehiculo(moto);
+    		servicioVigilante.ingresarVehiculo(entidadVehiculo);
     		return new FormatoRespuesta(EL_VEHICULO_HA_SIDO_REGISTRADO, ESTADO_OK, moto);
     		
     	}catch (IngresoVehiculoExcepcion e) {
