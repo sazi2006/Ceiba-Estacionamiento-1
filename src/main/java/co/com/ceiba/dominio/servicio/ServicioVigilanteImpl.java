@@ -7,18 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import co.com.ceiba.dominio.Carro;
-import co.com.ceiba.dominio.Moto;
 import co.com.ceiba.dominio.Vehiculo;
 import co.com.ceiba.dominio.excepcion.IngresoVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.ObtenerVehiculoExcepcion;
 import co.com.ceiba.dominio.excepcion.SalidaVehiculoExcepcion;
-import co.com.ceiba.persistencia.builder.CarroBuilder;
-import co.com.ceiba.persistencia.builder.MotoBuilder;
-import co.com.ceiba.persistencia.entidad.EntidadCarro;
-import co.com.ceiba.persistencia.entidad.EntidadMoto;
-import co.com.ceiba.persistencia.repositorio.RepositorioCarro;
-import co.com.ceiba.persistencia.repositorio.RepositorioMoto;
+import co.com.ceiba.persistencia.builder.VehiculoBuilder;
+import co.com.ceiba.persistencia.entidad.EntidadVehiculo;
+import co.com.ceiba.persistencia.repositorio.RepositorioVehiculo;
 
 @Service
 @Configuration
@@ -35,54 +30,31 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	private static final boolean NO_SE_ENCUENTRA_EN_EL_PARQUEADERO = false;
 	
 	@Autowired
-	private RepositorioCarro repositorioCarro;
+	private RepositorioVehiculo repositorioVehiculo;
 	
-	@Autowired
-	private RepositorioMoto repositorioMoto;
-	
-	public void ingresarVehiculo(Vehiculo vehiculo){
+	public void ingresarVehiculo(EntidadVehiculo entidadVehiculo){
 		
-		EntidadCarro carro = null;
-		EntidadMoto moto = null;
+		EntidadVehiculo result = repositorioVehiculo.findByPlaca(entidadVehiculo.getPlaca());
 		
-		if(vehiculo instanceof Moto) {
-			moto = repositorioMoto.findByPlaca(vehiculo.getPlaca());
-			if(moto != null && moto.estaEnParqueadero()) {
-				throw new IngresoVehiculoExcepcion(EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO);
-			}
-			
-			Moto vehiculoEsp = (Moto) vehiculo;
-			
-			moto = MotoBuilder.convertirAEntidad(vehiculoEsp);
-			moto.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
-		}else if(vehiculo instanceof Carro) {
-			carro = repositorioCarro.findByPlaca(vehiculo.getPlaca());
-			if(carro != null && carro.estaEnParqueadero()) {
-				throw new IngresoVehiculoExcepcion(EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO);
-			}
-			
-			Carro vehiculoEsp = (Carro) vehiculo;
-			carro = CarroBuilder.convertirAEntidad(vehiculoEsp);
-			carro.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
+		if(result != null && result.estaEnParqueadero()) {
+			throw new IngresoVehiculoExcepcion(EL_VEHICULO_YA_SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}
 		
-		if(!verificarCupo(vehiculo)) {
+		entidadVehiculo.setEstaEnParqueadero(SE_ENCUENTRA_EN_EL_PARQUEADERO);
+		
+		if(!verificarCupo(entidadVehiculo.getTipo())) {
 			throw new IngresoVehiculoExcepcion(NO_HAY_CUPO);
-		}else if(!puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())){
+		}else if(!puedeIngresar(entidadVehiculo.getPlaca(), entidadVehiculo.getFechaIngreso())){
 			throw new IngresoVehiculoExcepcion(NO_ESTA_EN_UN_DIA_HABIL);
 		}
-		
-		if(carro != null) {
-			
-			repositorioCarro.save(carro);
-		}else {
-			repositorioMoto.save(moto);
-		}
+	
+		repositorioVehiculo.save(entidadVehiculo);
+
 	
 	}
 	
-	public boolean verificarCupo(Vehiculo vehiculo) {
-		if(vehiculo instanceof Moto) {
+	public boolean verificarCupo(String tipo) {
+		if(tipo.equals("Moto")) {
 			return obtenerNroMotosEnParqueadero() < CUPO_MAX_MOTOS;
 		}else {
 			return obtenerNroCarrosEnParqueadero() < CUPO_MAX_CARROS;
@@ -90,11 +62,11 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	}
 	
 	public int obtenerNroMotosEnParqueadero() {
-		return repositorioMoto.findByEstaEnParqueadero(true).size();
+		return repositorioVehiculo.findByTipoYEstaEnParqueadero("Moto", true).size();
 	}
 	
 	public int obtenerNroCarrosEnParqueadero() {
-		return repositorioCarro.findByEstaEnParqueadero(true).size();
+		return repositorioVehiculo.findByTipoYEstaEnParqueadero("Carro", true).size();
 	}
 	
 	public boolean puedeIngresar(String placa, Date fechaIngreso) {
@@ -115,20 +87,13 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	
 	public Vehiculo retirarVehiculo(String placa, Date fechaSalida) {
 		
-		EntidadCarro carro = repositorioCarro.findByPlaca(placa);
-		EntidadMoto moto = repositorioMoto.findByPlaca(placa);
+		EntidadVehiculo entidadVehiculo = repositorioVehiculo.findByPlaca(placa);
 		
-		if(moto != null && moto.estaEnParqueadero()) {
-			moto.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
-			moto.setFechaSalida(fechaSalida);
-			repositorioMoto.save(moto);
-			return MotoBuilder.convertirADominio(moto);
-			
-		}else if(carro != null && carro.estaEnParqueadero()) {
-			carro.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
-			carro.setFechaSalida(fechaSalida);
-			repositorioCarro.save(carro);
-			return CarroBuilder.convertirADominio(carro);
+		if(entidadVehiculo != null && entidadVehiculo.estaEnParqueadero()) {
+			entidadVehiculo.setEstaEnParqueadero(NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
+			entidadVehiculo.setFechaSalida(fechaSalida);
+			repositorioVehiculo.save(entidadVehiculo);
+			return VehiculoBuilder.convertirADominio(entidadVehiculo);
 			
 		}else {
 			throw new SalidaVehiculoExcepcion(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
@@ -137,15 +102,10 @@ public class ServicioVigilanteImpl implements ServicioVigilante {
 	
 	public Vehiculo obtenerVehiculo(String placa) {
 		
-		EntidadCarro carro = repositorioCarro.findByPlaca(placa);
-		EntidadMoto moto = repositorioMoto.findByPlaca(placa);
+		EntidadVehiculo entidadVehiculo = repositorioVehiculo.findByPlaca(placa);
 		
-		if(moto != null && moto.estaEnParqueadero()) {
-			return MotoBuilder.convertirADominio(moto);
-			
-		}else if(carro != null && carro.estaEnParqueadero()) {
-			return CarroBuilder.convertirADominio(carro);
-			
+		if(entidadVehiculo != null && entidadVehiculo.estaEnParqueadero()) {
+			return VehiculoBuilder.convertirADominio(entidadVehiculo);
 		}else {
 			throw new ObtenerVehiculoExcepcion(EL_VEHICULO_NO_SE_ENCUENTRA_EN_EL_PARQUEADERO);
 		}

@@ -22,7 +22,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Calendar;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
@@ -49,9 +48,6 @@ public class VigilanteTest {
 	public void hayCupoMotoTest() {
 		
 		//arrange
-		MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder();
-		
-		Moto moto = motoTestDataBuilder.build();
 		
 		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
 		
@@ -59,7 +55,7 @@ public class VigilanteTest {
 		when(servicioVigilante.verificarCupo(Mockito.any())).thenCallRealMethod();
 		
 		//act
-		boolean hayCupo = servicioVigilante.verificarCupo(moto);
+		boolean hayCupo = servicioVigilante.verificarCupo("Moto");
 		
 		//assert
 		assertTrue(hayCupo);
@@ -68,17 +64,13 @@ public class VigilanteTest {
 	@Test
 	public void noHayCupoMotoTest() {
 		//arrange
-		MotoTestDataBuilder motoTestDataBuilder = new MotoTestDataBuilder();
-		
-		Moto moto = motoTestDataBuilder.build();
-		
 		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
 		
 		when(servicioVigilante.obtenerNroMotosEnParqueadero()).thenReturn(MOTOS_EN_PARQUEADERO_IGUAL_A_10);
 		when(servicioVigilante.verificarCupo(Mockito.any())).thenCallRealMethod();
 		
 		//act
-		boolean hayCupo = servicioVigilante.verificarCupo(moto);
+		boolean hayCupo = servicioVigilante.verificarCupo("Moto");
 		
 		//assert
 		assertFalse(hayCupo);
@@ -87,9 +79,6 @@ public class VigilanteTest {
 	@Test
 	public void hayCupoCarroTest() {
 		//arrange
-		CarroTestDataBuilder carroTestDataBuilder = new CarroTestDataBuilder();
-		
-		Carro carro = carroTestDataBuilder.build();
 		
 		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
 		
@@ -97,7 +86,7 @@ public class VigilanteTest {
 		when(servicioVigilante.verificarCupo(Mockito.any())).thenCallRealMethod();
 		
 		//act
-		boolean hayCupo = servicioVigilante.verificarCupo(carro);
+  		boolean hayCupo = servicioVigilante.verificarCupo("Carro");
 		
 		//assert
 		assertTrue(hayCupo);
@@ -106,9 +95,6 @@ public class VigilanteTest {
 	@Test
 	public void noHayCupoCarroTest() {
 		//arrange
-		CarroTestDataBuilder carroTestDataBuilder = new CarroTestDataBuilder();
-		
-		Carro carro = carroTestDataBuilder.build();
 		
 		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
 		
@@ -116,7 +102,7 @@ public class VigilanteTest {
 		when(servicioVigilante.verificarCupo(Mockito.any())).thenCallRealMethod();
 		
 		//act
-		boolean hayCupo = servicioVigilante.verificarCupo(carro);
+		boolean hayCupo = servicioVigilante.verificarCupo("Carro");
 		
 		//assert
 		assertFalse(hayCupo);
@@ -142,21 +128,46 @@ public class VigilanteTest {
 	}
 	
 	@Test
-	public void puedeIngresarVehiculoConPlacaA_DiaHabil() {
+	public void noPuedeIngresarVehiculoConPlacaA_DiaHabil() {
 		//arrange
 		
-		Calendar fechaHabil = Calendar.getInstance();
-		fechaHabil.set(2018, 6, 21);
+		// Fecha miercoles
+		Date fechaHabil = new Date(1530719569000L);
 		
 		VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().
 				conPlaca(PLACA_COMIENZA_CON_A).
-				conFechaIngreso(fechaHabil.getTime());
+				conFechaIngreso(fechaHabil);
 		
 		Vehiculo vehiculo = vehiculoTestDataBuilder.build();
 		
-		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
+		ServicioVigilanteImpl servicioVigilante = new ServicioVigilanteImpl();
 		
-		when(servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())).thenReturn(true);
+		//when(servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())).thenReturn(true);
+		
+		//act
+		boolean puedeIngresar = servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
+		
+		//assert
+		assertFalse(puedeIngresar);
+	}
+	
+	@Test
+	public void puedeingresarVehiculoConPlacaA_UnLunesTest() {
+		//arrange
+		
+		//Fecha lunes
+		Date fechaLunes = new Date(1530546975000L);
+		
+		VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().
+				conPlaca(PLACA_COMIENZA_CON_A).
+				conFechaIngreso(fechaLunes);
+		
+		Vehiculo vehiculo = vehiculoTestDataBuilder.build();
+		
+		//ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
+		ServicioVigilanteImpl servicioVigilante = new ServicioVigilanteImpl();
+		
+		//when(servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())).thenReturn(false);
 		
 		//act
 		boolean puedeIngresar = servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
@@ -166,51 +177,28 @@ public class VigilanteTest {
 	}
 	
 	@Test
-	public void puedeingresarVehiculoConPlacaA_UnLunesTest() {
-		//arrange
-		
-		Calendar fechaLunes = Calendar.getInstance();
-		fechaLunes.set(2018, 6, 18);
-		
-		VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().
-				conPlaca(PLACA_COMIENZA_CON_A).
-				conFechaIngreso(fechaLunes.getTime());
-		
-		Vehiculo vehiculo = vehiculoTestDataBuilder.build();
-		
-		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
-		
-		when(servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())).thenReturn(false);
-		
-		//act
-		boolean puedeIngresar = servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
-		
-		//assert
-		assertFalse(puedeIngresar);
-	}
-	
-	@Test
 	public void puedeingresarVehiculoConPlacaA_UnDomingoTest() {
 		//arrange
 		
-		Calendar fechaDomingo = Calendar.getInstance();
-		fechaDomingo.set(2018, 6, 17);
+		// Fecha domingo
+		Date fechaDomingo = new Date(1530460575000L);
 		
 		VehiculoTestDataBuilder vehiculoTestDataBuilder = new VehiculoTestDataBuilder().
 				conPlaca(PLACA_COMIENZA_CON_A).
-				conFechaIngreso(fechaDomingo.getTime());
+				conFechaIngreso(fechaDomingo);
 		
 		Vehiculo vehiculo = vehiculoTestDataBuilder.build();
 		
-		ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
+		//ServicioVigilanteImpl servicioVigilante = mock(ServicioVigilanteImpl.class);
+		ServicioVigilanteImpl servicioVigilante = new ServicioVigilanteImpl();
 		
-		when(servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())).thenReturn(false);
+		//when(servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso())).thenReturn(false);
 		
 		//act
 		boolean puedeIngresar = servicioVigilante.puedeIngresar(vehiculo.getPlaca(), vehiculo.getFechaIngreso());
 		
 		//assert
-		assertFalse(puedeIngresar);
+		assertTrue(puedeIngresar);
 	}
 	
 	@Test
